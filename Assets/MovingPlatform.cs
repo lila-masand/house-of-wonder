@@ -5,49 +5,49 @@ using UnityEngine;
 
 public class MovingPlatform : MonoBehaviour
 {
-    //public Transform target;
-    
+    //could maybe say that if target isn't null, raycast to target instead
+    public GameObject target;
     public float velocity = 130f;
 
+    //for debugging
+    //public float raytarget;
+
     private bool away = true;
+    private Vector3 origin;
+    private RaycastHit hit;
+    
 
 
     // Start is called before the first frame update
     void Start()
     {
-        //target.position = new Vector3(2163.5f, 6f, 1770.5f);
-        
+        origin = transform.position;
+
+        // It will start by moving away from its origin 
+        Physics.Raycast(origin, new Vector3(0f, 0f, -1f), out hit, Mathf.Infinity);
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        if (transform.position.z < 1950.5f)
+        if (away && transform.position.z < hit.point.z + 20)
         {
+   
+            Physics.Raycast(transform.position, new Vector3(0f, 0f, 1f), out hit, Mathf.Infinity);
 
             away = false;
-
         }
 
-        else if(transform.position.z > 3340.116f)
+        else if (!away && transform.position.z > hit.point.z - 20)
         {
-            away = true;
+            Physics.Raycast(transform.position, new Vector3(0f, 0f, -1f), out hit, Mathf.Infinity);
 
+            away = true;
         }
 
         float step = velocity*Time.deltaTime;
 
-        if (away)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, new Vector3(1938.74f, -137.53f, 1770.5f), step);
-        }
-
-        else
-        {
-            transform.position = Vector3.MoveTowards(transform.position, new Vector3(1938.74f, -137.53f, 3408.116f), step);
-
-        }
+        transform.position = Vector3.MoveTowards(transform.position, hit.point, step);
       
 
     }
