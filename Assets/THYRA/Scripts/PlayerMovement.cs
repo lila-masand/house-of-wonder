@@ -4,22 +4,22 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-private float speed;
-public float walkSpeed = 0.02f;
-public float runSpeed = 0.06f;
-public float rotationSpeed = 2.5f;
-public LayerMask groundLayers;
-public float jumpForce = 8f;
-public CapsuleCollider col;
-public bool isGrounded=true;
-Rigidbody rigidBody;
-Animator animator;
-CapsuleCollider capsuleCollider;
+    private float speed;
+    public float walkSpeed = 0.04f;
+    public float runSpeed = 0.06f;
+    public float rotationSpeed = 2.5f;
+    public LayerMask groundLayers;
+    public float jumpForce = 8f;
+    public CapsuleCollider col;
+    public bool isGrounded=true;
+    Rigidbody rigidBody;
+    Animator animator;
+    CapsuleCollider capsuleCollider;
 
-public Transform cameraTransform;
+    public Transform cameraTransform;
 
-private float yaw = 0;
-private float pitch = 0;
+    private float yaw = 0;
+    private float pitch = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -42,11 +42,17 @@ private float pitch = 0;
        pitch -= rotationSpeed * Input.GetAxis("Mouse Y");
        transform.eulerAngles = new Vector3(0, yaw, 0);
        cameraTransform.eulerAngles= new Vector3(pitch, yaw, 0);
-      
 
-       if(Input.GetButton("Fire1"))
+        if (animator.GetBool("IsJumping") && isGrounded)
+        {
+
+            animator.SetBool("IsJumping", false);
+        }
+
+        if (Input.GetButton("Fire1"))
        {
-         if(Input.GetButton("Vertical"))
+
+            if (Input.GetButton("Vertical"))
          {
            animator.SetBool("IsWalking",false);
            animator.SetBool("IsRunning",true);
@@ -64,7 +70,7 @@ private float pitch = 0;
        }
        else if (isGrounded && Input.GetButton("Jump"))
        {
-            rigidBody.AddForce(Vector3.up * jumpForce);
+            rigidBody.AddForce((Vector3.up + new Vector3(0, 0, 1f)) * jumpForce);
             isGrounded=false;
             animator.SetBool("IsWalking",false);
             animator.SetBool("IsRunning",false);
@@ -72,20 +78,21 @@ private float pitch = 0;
             animator.SetBool("IsJumping",true);
          }
          
-         else{
-         if(Input.GetButton("Vertical")){
-           animator.SetBool("IsWalking",true);
-           animator.SetBool("IsRunning",false);
-           animator.SetBool("IsIdle",false);
-         }
-         else
-         {
-           animator.SetBool("IsWalking",false);
-           animator.SetBool("IsRunning",false);
-           animator.SetBool("IsIdle",true);
-           animator.SetBool("IsJumping",false);
-         }
-           speed = walkSpeed;
+        else{
+
+             if(Input.GetButton("Vertical")){
+               animator.SetBool("IsWalking",true);
+               animator.SetBool("IsRunning",false);
+               animator.SetBool("IsIdle",false);
+             }
+             else
+             {
+               animator.SetBool("IsWalking",false);
+               animator.SetBool("IsRunning",false);
+               animator.SetBool("IsIdle",true);
+               animator.SetBool("IsJumping",false);
+             }
+               speed = walkSpeed;
        }
  
     }
