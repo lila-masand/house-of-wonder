@@ -8,28 +8,40 @@ public class PlatformTrigger : MonoBehaviour
     public Animation anim;
     public Camera maincam;
     public Camera platformcam;
+
+    bool activated = false;
+    bool inRange = false;
     //public GameObject obj;
 
     // Start is called before the first frame update
     void Start()
     {
+        platformcam.enabled = false;
+        maincam.enabled = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if(inRange && Input.GetKey(KeyCode.Return) && !activated)
+        {
+            StartCoroutine(WatchTrigger());
+            activated = true;
+        }
+
+
     }
 
     void OnTriggerEnter(Collider other)
     {
 
-        if(other.gameObject.name == "thyra" || other.gameObject.tag == "Player")
+        if(other.gameObject.name == "thyra" || other.gameObject.tag == "Player" && !activated)
         {
-
-            anim.Play("ActivatePlatform");
-            platformcam.enabled = true;
-            maincam.enabled = false;
+            inRange = true;
+            //if (Input.GetKey(KeyCode.Return))
+            //{
+            //    StartCoroutine(WatchTrigger());
+            //}
 
             //if (Input.anyKey)
             //{
@@ -54,6 +66,14 @@ public class PlatformTrigger : MonoBehaviour
 
     }
 
+    void OnTriggerExit(Collider other)
+    {
+
+        inRange = false;
+
+
+    }
+
     // need to have this method call a coroutine
     void OnCollisionEnter(Collision other)
     {
@@ -61,9 +81,10 @@ public class PlatformTrigger : MonoBehaviour
         if (other.gameObject.name == "thyra" || other.gameObject.tag == "Player")
         {
 
-            anim.Play("ActivatePlatform");
-            platformcam.enabled = true;
-            maincam.enabled = false;
+            StartCoroutine(WatchTrigger());
+
+           // platformcam.enabled = false;
+           // maincam.enabled = true;
 
             //if (Input.anyKey)
             //{
@@ -84,6 +105,18 @@ public class PlatformTrigger : MonoBehaviour
 
         }
 
+    }
+
+    IEnumerator WatchTrigger()
+    {
+        platformcam.enabled = true;
+        maincam.enabled = false;
+
+        anim.Play("ActivatePlatform");
+        yield return new WaitForSeconds(1.5f);
+
+        platformcam.enabled = false;
+        maincam.enabled = true;
     }
 
 
