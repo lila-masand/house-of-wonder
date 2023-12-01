@@ -2,21 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Scripted by Owen Ludlam
+enum AnimStates
+{
+    Walk = 0, Run = 1, Idle = 2, Jump = 3, Loose = 4
+}
+
 public class PlayerMovement : MonoBehaviour
 {
-    private float speed;
-    public float walkSpeed = 0.04f;
-    public float runSpeed = 0.06f;
-    public float rotationSpeed = 2.5f;
-    public LayerMask groundLayers;
-    public float jumpForce = 8f;
-    public CapsuleCollider col;
-    public bool isGrounded=true;
-    Rigidbody rigidBody;
-    Animator animator;
-    CapsuleCollider capsuleCollider;
+    // Physics variables
+    public float speed;
+    public float jump_force;
+    public float sensitivity;
+    public float gravity = -9.81f;
 
-    public Transform cameraTransform;
+    private Vector3 velocity;
+    private float xRot;
+    private Vector2 player_mouse_input;
+    private Vector3 player_movement_input;
+
+    // Object variables
+    private Animator animator;
+    private CharacterController character_controller;
+    public Transform camera_transform;
 
     private float yaw = 0;
     private float pitch = 0;
@@ -24,92 +32,64 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rigidBody = GetComponent<Rigidbody>();
         animator = gameObject.GetComponent<Animator>();
-        capsuleCollider = gameObject.GetComponent<CapsuleCollider>();
+        character_controller = gameObject.GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
     void Update()
     {
-       float moveVertical = Input.GetAxis("Vertical") * speed;
-       float moveHorizontal = Input.GetAxis("Horizontal") * rotationSpeed;
-       
-       Vector3 movement = new Vector3(moveHorizontal, 0, moveVertical);
+        // Get the player mouse inputs. Prevent backwards walking
+        player_movement_input = new Vector3(0f, 0f, Input.GetAxis("Vertical"));
+        player_mouse_input = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+        Debug.Log(player_mouse_input.x.ToString() + " : " + player_mouse_input.y.ToString());
 
-       isGrounded = true;
-       yaw += rotationSpeed * Input.GetAxis("Mouse X");
-       pitch -= rotationSpeed * Input.GetAxis("Mouse Y");
-       transform.eulerAngles = new Vector3(0, yaw, 0);
-       cameraTransform.eulerAngles= new Vector3(pitch, yaw, 0);
+        // Complete player and camera movement
+        MovePlayer();
+    }
 
-        if (animator.GetBool("IsJumping") && isGrounded)
+    private void MovePlayer()
+    {
+        Vector3 move_vector = transform.TransformDirection(player_movement_input);
+
+        animator.SetBool("Grounded", character_controller.isGrounded);
+        if (character_controller.isGrounded)
         {
+            // Treat the character as grounded
+            velocity.y = -1f;
 
-            animator.SetBool("IsJumping", false);
+            // Play the jumping animation and apply a vertical jump force
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                animator.SetTrigger("Jump");
+                velocity.y = jump_force;
+            }
+        }
+        else
+        {
+            // Apply generic gravity and play landing animation if applicable
+            animator.SetTrigger("Land");
+            velocity.y -= gravity * -2f * Time.deltaTime;
         }
 
-        if (Input.GetButton("Fire1"))
-       {
+        // Move the character with the controller move script
+        character_controller.SimpleMove(move_vector * speed);
+        character_controller.Move(velocity * Time.deltaTime);
 
-            if (Input.GetButton("Vertical"))
-         {
-           animator.SetBool("IsWalking",false);
-           animator.SetBool("IsRunning",true);
-           animator.SetBool("IsIdle",false);
-         }
-         else
-         {
-           animator.SetBool("IsWalking",false);
-           animator.SetBool("IsRunning",false);
-           animator.SetBool("IsIdle",true);
-           animator.SetBool("IsJumping",false);
-         }
-         speed = runSpeed;    
+        // Rotate horizontally
+        transform.Rotate(0f, Input.GetAxis("Horizontal") * sensitivity, 0f);
 
-       }
-       else if (isGrounded && Input.GetButton("Jump"))
-       {
-            rigidBody.AddForce((Vector3.up + new Vector3(0, 0, 1f)) * jumpForce);
-            isGrounded=false;
-            animator.SetBool("IsWalking",false);
-            animator.SetBool("IsRunning",false);
-            animator.SetBool("IsIdle",false);
-            animator.SetBool("IsJumping",true);
-         }
-         
-        else{
-
-             if(Input.GetButton("Vertical")){
-               animator.SetBool("IsWalking",true);
-               animator.SetBool("IsRunning",false);
-               animator.SetBool("IsIdle",false);
-             }
-             else
-             {
-               animator.SetBool("IsWalking",false);
-               animator.SetBool("IsRunning",false);
-               animator.SetBool("IsIdle",true);
-               animator.SetBool("IsJumping",false);
-             }
-               speed = walkSpeed;
-       }
- 
+        // Set animation move-speed
+        animator.SetFloat("MoveSpeed", move_vector.magnitude);
     }
-  
-    void OnCollisionEnter(Collision other)
- {
-     if (other.gameObject.tag == "Grounded")
-     {
-         isGrounded = true;
-     }
- }
- 
- void OnCollisionExit(Collision other)
- {
-     if (other.gameObject.tag == "Grounded")
-     {
-         isGrounded = false;
-     }
- }
+
+    // Only 1 bool is valid, so set the valid bool
+    void SetAnimator(AnimStates state)
+    {
+        animator.SetBool("IsWalking", state == AnimStates.Walk);
+        animator.SetBool("IsRunning", state == AnimStates.Run);
+        animator.SetBool("IsIdle", state == AnimStates.Idle);
+        animator.SetBool("IsJumping", state == AnimStates.Jump);
+        animator.SetBool("IsLoose", state == AnimStates.Loose);
+    }
 }
