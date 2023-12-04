@@ -2,8 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-
+using Cinemachine;
+using TMPro;
 
 
 public class Puzzle : MonoBehaviour
@@ -11,67 +11,104 @@ public class Puzzle : MonoBehaviour
 
     public Camera PuzzleCam;
     public Camera MainCam;
-    //public Animation anim;
+    public Camera PlayerCam;
     public GameObject player;
-
-    bool puzzlePlay;
+    public GameObject LoadZone;
+    public List<int> userSolution;
     public bool solutionInput;
-    int[] solution;
-    int blockNum;
+    public bool solved;
+    public TMP_Text ControlPopUp;
 
+
+
+    private int[] solution;
+    private GameObject parent;
+    //private CinemachineBrain cameraBrain;
 
     void Start()
     {
         solution = getPuzzle();
-        blockNum = 0;
-        puzzlePlay = false;
         solutionInput = false;
+        userSolution = new List<int>();
+        parent = transform.parent.gameObject;
+        solved = false;
+        MainCam.enabled = true;
+        ControlPopUp.enabled = false;
+        //cameraBrain = MainCam.GetComponent<CinemachineBrain>();
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        // automatically switch to puzzle camera when in range
-        if(player.transform.position.x > 39f && player.transform.position.z > 373f && player.transform.position.z < 377f)
+        if (!solved)
         {
+            // automatically switch to puzzle camera when in range
+            if (player.transform.position.x > 31f && player.transform.position.z > 374f && player.transform.position.z < 377f)
+            {
+                //MainCam.enabled = false;
+                PuzzleCam.enabled = true;
+            }
 
-            MainCam.enabled = false;
-            PuzzleCam.enabled = true;
+            else
+            {
 
+                //MainCam.enabled = true;
+                PuzzleCam.enabled = false;
+            }
+
+
+            if (!solutionInput && PuzzleCam.enabled && Input.GetKey(KeyCode.Return))
+            {
+                StartCoroutine(RunPuzzle());
+
+                solutionInput = true;
+            }
+
+
+            else if (solutionInput && PuzzleCam.enabled && userSolution.Count == 4)
+            {
+                bool correct = true;
+
+                for (int i = 0; i < 4; i++)
+                {
+                    if (solution[i] != userSolution[i])
+                    {
+                        correct = false;
+                        break;
+                    }
+
+                }
+
+                if (correct)
+                {
+
+                    PuzzleCam.enabled = false;
+                    solved = true;
+                    StartCoroutine(DoorActivate());
+
+                }
+
+                else
+                {
+
+                    solutionInput = false;
+                    solution = getPuzzle();
+                    userSolution.Clear();
+
+                    StartCoroutine(FlashAll());
+
+
+                }
+
+            }
         }
-
-        else
-        {
-            MainCam.enabled = true;
-            PuzzleCam.enabled = false;
-        }
-
-  
-        if(PuzzleCam.enabled && Input.GetKey(KeyCode.Return))
-        {
-
-            puzzlePlay = true;
-
-            StartCoroutine(RunPuzzle());
-
-            puzzlePlay = false;
-            solutionInput = true;
-        }
-
-
-        else if(PuzzleCam.enabled && solutionInput)
-        {
-
-
-
-        }
-
     }
 
     IEnumerator RunPuzzle()
     {
-        
+       
+
         for (int i = 0; i < 4; i++)
         {
 
@@ -81,7 +118,33 @@ public class Puzzle : MonoBehaviour
         }
 
     }
-  
+
+    IEnumerator FlashAll()
+    {
+        for (int i = 0; i < 9; i++)
+        {
+            transform.GetChild(i).GetComponent<Animator>().SetBool("Flash", true);
+        }
+
+        yield return new WaitForSeconds(1f);
+
+        for (int i = 0; i < 9; i++)
+        {
+            transform.GetChild(i).GetComponent<Animator>().SetBool("Flash", false);
+        }
+
+    }
+
+    IEnumerator DoorActivate()
+    {
+        LoadZone.GetComponent<Animator>().SetBool("PuzzleSolved", true);
+        PlayerCam.enabled = false;
+        yield return new WaitForSeconds(2f);
+        PlayerCam.enabled = true;
+        MainCam.enabled = false;
+        //MainCam.targetDisplay = 2;
+    }
+
 
     private int[] getPuzzle()
     {

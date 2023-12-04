@@ -21,11 +21,11 @@ public class respawn : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.name == "thyra" || other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player")
         {
             // need overall level script that has a variable tracking Thyra's last position?
 
-            player.transform.position = new Vector3(38f, 46f, 371f);
+            player.transform.position = new Vector3(26f, 53f, 353f);
 
         }
 

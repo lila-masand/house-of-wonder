@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using TMPro;
 
 public class PlatformTrigger : MonoBehaviour
 {
     public Animation anim;
     public Camera maincam;
     public Camera platformcam;
+    public TMP_Text ControlPopUp;
 
     bool activated = false;
     bool inRange = false;
@@ -17,12 +19,16 @@ public class PlatformTrigger : MonoBehaviour
     void Start()
     {
         platformcam.enabled = false;
-        maincam.enabled = true;
+        ControlPopUp.enabled = false;
+        //maincam.enabled = true;
     }
 
     // Update is called once per frame
     void Update()
     {
+
+       
+
         if(inRange && Input.GetKey(KeyCode.Return) && !activated)
         {
             StartCoroutine(WatchTrigger());
@@ -35,33 +41,10 @@ public class PlatformTrigger : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
 
-        if(other.gameObject.name == "thyra" || other.gameObject.tag == "Player" && !activated)
+        if(other.gameObject.tag == "Player" && !activated)
         {
             inRange = true;
-            //if (Input.GetKey(KeyCode.Return))
-            //{
-            //    StartCoroutine(WatchTrigger());
-            //}
-
-            //if (Input.anyKey)
-            //{
-            //    maincam.enabled = true;
-            //    platformcam.enabled = false;
-
-            //}
-            //Time.timeScale = .5f;
-
-            //float pauseEnd = Time.realtimeSinceStartup + 5f;
-
-            //while (Time.realtimeSinceStartup < pauseEnd)
-            //{
-
-
-            //}
-
-            //Time.timeScale = 1f;
-            //maincam.enabled = true;
-            //platformcam.enabled = false;
+            ControlPopUp.enabled = true;
         }
 
     }
@@ -70,7 +53,7 @@ public class PlatformTrigger : MonoBehaviour
     {
 
         inRange = false;
-
+        ControlPopUp.enabled = false;
 
     }
 
@@ -78,45 +61,33 @@ public class PlatformTrigger : MonoBehaviour
     void OnCollisionEnter(Collision other)
     {
 
-        if (other.gameObject.name == "thyra" || other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player")
         {
 
             StartCoroutine(WatchTrigger());
 
-           // platformcam.enabled = false;
-           // maincam.enabled = true;
-
-            //if (Input.anyKey)
-            //{
-            //    maincam.enabled = true;
-            //    platformcam.enabled = false;
-
-            //}
-            //Time.timeScale = 0f;
-
-            //float pauseEnd = Time.realtimeSinceStartup + 5f;
-
-            //while(Time.realtimeSinceStartup < pauseEnd)
-
-
-            //Time.timeScale = 1f;
-            //maincam.enabled = true;
-            //platformcam.enabled = false;
-
+          
         }
 
     }
 
     IEnumerator WatchTrigger()
     {
-        platformcam.enabled = true;
-        maincam.enabled = false;
+        ControlPopUp.enabled = false;
 
-        anim.Play("ActivatePlatform");
+        platformcam.enabled = true;
+
+        anim.Play();
+
+        //if (transform.name == "Cube1")
+        //    anim.Play("ActivatePlatform");
+
+        //else if (transform.name == "Cube")
+         //   anim.Play("ActivatePlatformTall");
+
         yield return new WaitForSeconds(1.5f);
 
         platformcam.enabled = false;
-        maincam.enabled = true;
     }
 
 

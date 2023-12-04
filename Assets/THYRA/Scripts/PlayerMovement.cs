@@ -15,6 +15,8 @@ public class PlayerMovement : MonoBehaviour
     public float jump_force;
     public float sensitivity;
     public float gravity = -9.81f;
+    //public MovingPlatform platformScript;
+    //public GameObject platform;
 
     private Vector3 velocity;
     private float xRot;
@@ -34,6 +36,7 @@ public class PlayerMovement : MonoBehaviour
     {
         animator = gameObject.GetComponent<Animator>();
         character_controller = gameObject.GetComponent<CharacterController>();
+        //platformScript = platform.GetComponent<MovingPlatform>();
     }
 
     // Update is called once per frame
@@ -42,7 +45,7 @@ public class PlayerMovement : MonoBehaviour
         // Get the player mouse inputs. Prevent backwards walking
         player_movement_input = new Vector3(0f, 0f, Input.GetAxis("Vertical"));
         player_mouse_input = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
-        Debug.Log(player_mouse_input.x.ToString() + " : " + player_mouse_input.y.ToString());
+        //Debug.Log(player_mouse_input.x.ToString() + " : " + player_mouse_input.y.ToString());
 
         // Complete player and camera movement
         MovePlayer();
@@ -63,13 +66,20 @@ public class PlayerMovement : MonoBehaviour
             {
                 animator.SetTrigger("Jump");
                 velocity.y = jump_force;
+
+                // Also move in direction you're facing (LM)
+                velocity.z = (jump_force/3)*move_vector.z;
+                velocity.x = (jump_force/3)*move_vector.x;
             }
         }
         else
         {
             // Apply generic gravity and play landing animation if applicable
             animator.SetTrigger("Land");
-            velocity.y -= gravity * -2f * Time.deltaTime;
+            velocity.y -= gravity * -1.5f * Time.deltaTime;
+
+            // Gentler gravity for x and z directions (LM)
+            velocity = Vector3.MoveTowards(velocity, new Vector3(0, velocity.y, 0), jump_force*Time.deltaTime);                       
         }
 
         // Move the character with the controller move script

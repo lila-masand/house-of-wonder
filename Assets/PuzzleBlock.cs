@@ -8,19 +8,24 @@ public class PuzzleBlock : MonoBehaviour
 {
     public GameObject puzzle;
     bool allowed;
+    public Material red;
+    public Material white;
+
+    private Puzzle puzzleScript;
 
     // Start is called before the first frame update
     void Start()
     {
         //puzzle = GameObject.Find("Memory Blocks");
         allowed = false;
+        puzzleScript = puzzle.GetComponent<Puzzle>();
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        allowed = puzzle.GetComponent<Puzzle>().solutionInput;
+        allowed = puzzleScript.solutionInput;
 
     }
 
@@ -28,8 +33,10 @@ public class PuzzleBlock : MonoBehaviour
     {
         if (allowed)
         {
-            this.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.red);
-            
+            this.GetComponent<MeshRenderer>().material.SetColor("_BaseColor", Color.red);
+            //this.GetComponent<MeshRenderer>().material = red;
+
+
         }
 
 
@@ -39,10 +46,17 @@ public class PuzzleBlock : MonoBehaviour
     {
         if (allowed)
         {
-            this.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.white);
+            this.GetComponent<MeshRenderer>().material.SetColor("_BaseColor", Color.white);
+            //this.GetComponent<MeshRenderer>().material = white;
+
 
         }
 
 
+    }
+
+    void OnMouseDown()
+    {
+        puzzleScript.userSolution.Add(transform.GetSiblingIndex());
     }
 }

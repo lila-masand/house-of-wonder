@@ -7,7 +7,8 @@ public class MovingPlatform : MonoBehaviour
 {
     //could maybe say that if target isn't null, raycast to target instead
     public GameObject target;
-    public float velocity = 130f;
+    public float velocity = 5f;
+    public bool PlayerOn;
 
     //for debugging
     //public float raytarget;
@@ -16,8 +17,6 @@ public class MovingPlatform : MonoBehaviour
     private Vector3 origin;
     private RaycastHit hit;
     
-
-
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +24,7 @@ public class MovingPlatform : MonoBehaviour
 
         // It will start by moving away from its origin 
         Physics.Raycast(origin, new Vector3(0f, 0f, -1f), out hit, Mathf.Infinity);
+        PlayerOn = false;
     }
 
     // Update is called once per frame
@@ -49,6 +49,30 @@ public class MovingPlatform : MonoBehaviour
 
         transform.position = Vector3.MoveTowards(transform.position, hit.point, step);
       
+
+    }
+
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            // need overall level script that has a variable tracking Thyra's last position?
+
+            PlayerOn = true;
+        }
+
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            // need overall level script that has a variable tracking Thyra's last position?
+
+            PlayerOn = false;
+
+        }
 
     }
 }
