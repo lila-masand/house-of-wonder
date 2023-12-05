@@ -15,8 +15,6 @@ public class PlayerMovement : MonoBehaviour
     public float jump_force;
     public float sensitivity;
     public float gravity = -9.81f;
-    //public MovingPlatform platformScript;
-    //public GameObject platform;
 
     private Vector3 velocity;
     private float xRot;
