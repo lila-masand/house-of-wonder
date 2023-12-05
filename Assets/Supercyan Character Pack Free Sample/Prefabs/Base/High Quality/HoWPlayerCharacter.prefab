@@ -140,7 +140,6 @@ GameObject:
   - component: {fileID: 4041194926758732551}
   - component: {fileID: 7382916101562159146}
   - component: {fileID: 7580048258728305409}
-  - component: {fileID: 5544271797872567015}
   m_Layer: 0
   m_Name: HoWPlayerCharacter
   m_TagString: Untagged
@@ -213,23 +212,6 @@ CharacterController:
   m_SkinWidth: 0.01
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.51, z: 0}
---- !u!114 &5544271797872567015
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2248030230204496684}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2bf4f0c343c92945a07b59d486f79ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 2
-  jump_force: 8
-  sensitivity: 0.5
-  gravity: -9.81
-  camera_transform: {fileID: 6343137073783383767}
 --- !u!1 &2754817201220470389
 GameObject:
   m_ObjectHideFlags: 0
