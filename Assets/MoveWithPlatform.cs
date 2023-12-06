@@ -31,7 +31,11 @@ public class MoveWithPlatform : MonoBehaviour
             PlayerOn = true;
             player.GetComponent<Rigidbody>().isKinematic = true;
 
+            //player.transform.localScale = new Vector3(1f, 1f, 1f);
+
             player.transform.parent = this.transform;
+            player.transform.localScale = Vector3.one;
+            player.transform.localScale = new Vector3(1f / transform.lossyScale.x, 1f / transform.lossyScale.y, 1f / transform.lossyScale.z);
         }
 
     }
@@ -48,4 +52,6 @@ public class MoveWithPlatform : MonoBehaviour
         }
 
     }
+
+   
 }

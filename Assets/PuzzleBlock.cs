@@ -33,7 +33,7 @@ public class PuzzleBlock : MonoBehaviour
     {
         if (allowed)
         {
-            this.GetComponent<MeshRenderer>().material.SetColor("_BaseColor", Color.red);
+            this.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.red);
             //this.GetComponent<MeshRenderer>().material = red;
 
 
@@ -46,7 +46,7 @@ public class PuzzleBlock : MonoBehaviour
     {
         if (allowed)
         {
-            this.GetComponent<MeshRenderer>().material.SetColor("_BaseColor", Color.white);
+            this.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.white);
             //this.GetComponent<MeshRenderer>().material = white;
 
 

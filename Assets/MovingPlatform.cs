@@ -30,7 +30,7 @@ public class MovingPlatform : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (away && transform.position.z < hit.point.z + 1.5)
+        if (away && transform.position.z < hit.point.z + 2.5)
         {
    
             Physics.Raycast(transform.position, new Vector3(0f, 0f, 1f), out hit, Mathf.Infinity);
@@ -38,7 +38,7 @@ public class MovingPlatform : MonoBehaviour
             away = false;
         }
 
-        else if (!away && transform.position.z > hit.point.z - 1.5)
+        else if (!away && transform.position.z > hit.point.z - 2.5)
         {
             Physics.Raycast(transform.position, new Vector3(0f, 0f, -1f), out hit, Mathf.Infinity);
 

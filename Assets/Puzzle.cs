@@ -44,7 +44,7 @@ public class Puzzle : MonoBehaviour
         if (!solved)
         {
             // automatically switch to puzzle camera when in range
-            if (player.transform.position.x > 32f && player.transform.position.z > 371.5f && player.transform.position.z <= 373f)
+            if (player.transform.position.x > 32f && player.transform.position.z > 372f && player.transform.position.z <= 373.5f)
             {
                 //MainCam.enabled = false;
                 PuzzleCam.enabled = true;
