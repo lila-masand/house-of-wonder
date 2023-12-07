@@ -5,6 +5,7 @@ using UnityEngine;
 public class respawn : MonoBehaviour
 {
     public GameObject player;
+    public GameObject respawn_point;
 
     // Start is called before the first frame update
     void Start()
@@ -25,7 +26,7 @@ public class respawn : MonoBehaviour
         {
             // need overall level script that has a variable tracking Thyra's last position?
 
-            player.transform.position = new Vector3(26f, 53f, 353f);
+            player.transform.position = respawn_point.transform.position;
 
         }
 
