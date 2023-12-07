@@ -44,6 +44,9 @@ public class PuzzleTile : MonoBehaviour
 
             }
 
+            UnityEngine.Debug.Log(puzzleScript.solCheckable.Count);
+
+            UnityEngine.Debug.Log(puzzleScript.userSolution.Count);
             pressed = true;
         }
     }

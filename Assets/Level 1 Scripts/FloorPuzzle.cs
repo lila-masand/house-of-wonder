@@ -82,18 +82,12 @@ public class FloorPuzzle : MonoBehaviour
                 StartCoroutine(RunPuzzle());
                 PuzzleCam.enabled = true;
 
-                for (int i = 0; i < 6; i++)
+                if(solCheckable.Count < 5)
                 {
-                    //could also make an array of the GameObjects called grid
-                    Transform currColumn = transform.GetChild(i);
-
-                    for (int j = 0; j < solution[i].Count; j++)
-                    {
-
-                        solCheckable.Add(i + "" + solution[i][j]);
-                    }
+                    solCheckable = AddSolution();
 
                 }
+               
 
             }
 
@@ -137,8 +131,10 @@ public class FloorPuzzle : MonoBehaviour
         }
     }
 
+
     IEnumerator RunPuzzle()
     {
+
         for (int i = 0; i < 6; i++)
         {
             //could also make an array of the GameObjects called grid
@@ -173,6 +169,27 @@ public class FloorPuzzle : MonoBehaviour
     {
         yield return null;
 
+    }
+
+    private List<string> AddSolution()
+    {
+        List<string> sol = new List<string>();
+
+        for (int i = 0; i < 6; i++)
+        {
+            //could also make an array of the GameObjects called grid
+            Transform currColumn = transform.GetChild(i);
+
+            for (int j = 0; j < solution[i].Count; j++)
+            {
+
+                sol.Add(i + "" + solution[i][j]);
+                //UnityEngine.Debug.Log(i + "" + solution[i][j] + ", ");
+            }
+
+        }
+
+        return sol;
     }
 
     IEnumerator FlashAll()
