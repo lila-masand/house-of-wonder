@@ -6,8 +6,11 @@ using UnityEngine.AI;
 public class Skeleton : MonoBehaviour
 {
 
-    NavMeshAgent agent;
-    Transform player;
+    private NavMeshAgent agent;
+    private Transform player;
+    private float detectRadius = 7.5f;
+    private float roamRadius = 10.0f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,7 +21,20 @@ public class Skeleton : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        agent.SetDestination(player.position);
+        float playerDist = Vector3.Distance(transform.position, player.position);
+
+        if (playerDist <= detectRadius) {
+            Vector3 oppositePlayer = transform.position - player.position;
+            Vector3 targetPosition = transform.position + oppositePlayer.normalized * roamRadius;
+            agent.SetDestination(targetPosition);
+        } else {
+            if (!agent.pathPending && agent.remainingDistance < 0.5f) {
+                Vector3 randomDirection = Random.insideUnitSphere * roamRadius;
+                randomDirection += transform.position;
+                NavMesh.SamplePosition(randomDirection, out NavMeshHit hit, roamRadius, 1);
+                agent.SetDestination(hit.position);
+            }
+        }
     }
 }
 
