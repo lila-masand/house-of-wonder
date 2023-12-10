@@ -10,31 +10,27 @@ enum TileType
 }
 
 public class Maze : MonoBehaviour {
-    public int width = 12;
-    public int length = 12;
-    public int middle = 6;
-    public float height = 2.0f;
-    public float npc_speed = 3.0f;
+    public int width = 23;
+    public int length = 23;
+    public int middle = 12;
+    public float height = 2.5f;
     public GameObject npc1;
     public GameObject npc2;
     public GameObject npc3;
     public GameObject npc4;
     public GameObject fps_player_obj;
-    internal float player_health = 1.0f;
     internal bool solved_puzzle = false;
 
     private Bounds bounds;
     private float timestamp_last_msg = 0.0f;
     private int function_calls = 0;
-    // private List<int[]> pos_npcs;
     private bool started = true;
     public Material wallMaterial;
 
     private void Shuffle<T>(ref List<T> list)
     {
         int n = list.Count;
-        while (n > 1)
-        {
+        while (n > 1) {
             n--;
             int k = Random.Range(0, n + 1);
             T value = list[k];
@@ -47,7 +43,6 @@ public class Maze : MonoBehaviour {
         bounds = GetComponent<Collider>().bounds; 
         timestamp_last_msg = 0.0f;
         function_calls = 0;
-        player_health = 1.0f;
 
         List<TileType>[,] grid = new List<TileType>[width, length];
         List<int[]> unassigned = new List<int[]>();
@@ -95,7 +90,7 @@ public class Maze : MonoBehaviour {
                     number_of_assigned_elements[(int)grid[w, l][0]]++;
             }
 
-        if ((number_of_assigned_elements[(int)TileType.WALL] > 25))
+        if ((number_of_assigned_elements[(int)TileType.WALL] > 50))
             return true;
         else
             return false;
@@ -114,7 +109,7 @@ public class Maze : MonoBehaviour {
                 }
             }
 
-        if ((number_of_potential_assignments[(int)TileType.WALL] < 12))
+        if ((number_of_potential_assignments[(int)TileType.WALL] < 24))
             return true;
         else
             return false;
@@ -122,7 +117,7 @@ public class Maze : MonoBehaviour {
 
 
     bool TooLongWall(List<TileType>[,] grid) {
-        int max_len = 3;
+        int max_len = 4;
 
         // vertical walls
         for (int l = 1; l < length - 1; l++) {
@@ -163,10 +158,10 @@ public class Maze : MonoBehaviour {
             for (int l = 1; l < length - 1; l++) {
                 if ((grid[w, l].Count == 1) && (grid[w, l][0] == TileType.WALL)) {
 
-                    if ((grid[w - 1, l - 1].Count >= 1) && (grid[w - 1, l - 1].Contains(TileType.WALL))) { return true; }
-                    if ((grid[w - 1, l + 1].Count >= 1) && (grid[w - 1, l + 1].Contains(TileType.WALL))) { return true; }
-                    if ((grid[w + 1, l - 1].Count >= 1) && (grid[w + 1, l - 1].Contains(TileType.WALL))) { return true; }
-                    if ((grid[w + 1, l + 1].Count >= 1) && (grid[w + 1, l + 1].Contains(TileType.WALL))) { return true; }
+                    if ((grid[w - 1, l - 1].Count >= 1) && (grid[w - 1, l - 1][0] == TileType.WALL)) { return true; }
+                    if ((grid[w - 1, l + 1].Count >= 1) && (grid[w - 1, l + 1][0] == TileType.WALL)) { return true; }
+                    if ((grid[w + 1, l - 1].Count >= 1) && (grid[w + 1, l - 1][0] == TileType.WALL)) { return true; }
+                    if ((grid[w + 1, l + 1].Count >= 1) && (grid[w + 1, l + 1][0] == TileType.WALL)) { return true; }
 
                 }
             }
