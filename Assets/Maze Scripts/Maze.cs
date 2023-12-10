@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.AI;
 
 enum TileType
 {
@@ -26,6 +27,7 @@ public class Maze : MonoBehaviour {
     private int function_calls = 0;
     private bool started = true;
     public Material wallMaterial;
+    // public NavMeshSurface navMesh;
 
     private void Shuffle<T>(ref List<T> list)
     {
@@ -76,6 +78,7 @@ public class Maze : MonoBehaviour {
         }
 
         DrawMaze(grid);
+        // NavMesh.BuildNavMesh();
     }
 
 
@@ -90,7 +93,7 @@ public class Maze : MonoBehaviour {
                     number_of_assigned_elements[(int)grid[w, l][0]]++;
             }
 
-        if ((number_of_assigned_elements[(int)TileType.WALL] > 50))
+        if ((number_of_assigned_elements[(int)TileType.WALL] > 65))
             return true;
         else
             return false;
@@ -273,8 +276,6 @@ public class Maze : MonoBehaviour {
             }
         }
 
-        // y = bounds.min[1];
-        float npcy = bounds.min[1] + 1.0f;
         // Quadrant I
         int wn = 0;
         int ln = 0;
@@ -289,7 +290,7 @@ public class Maze : MonoBehaviour {
             if (solution[wn, ln][0] == TileType.FLOOR) {
                 float x = bounds.min[0] + (float)wn * (bounds.size[0] / (float)width);
                 float z = bounds.min[2] + (float)ln * (bounds.size[2] / (float)length);
-                npc1.transform.position = new Vector3(x + 0.5f, npcy, z + 0.5f); 
+                npc1.transform.position = new Vector3(x + 0.5f, 0, z + 0.5f); 
                 npc1.GetComponent<Rigidbody>().useGravity = true;
                 npc1.GetComponent<Rigidbody>().mass = 1000;
                 break;
@@ -309,7 +310,7 @@ public class Maze : MonoBehaviour {
 
                 float x = bounds.min[0] + (float)wn * (bounds.size[0] / (float)width);
                 float z = bounds.min[2] + (float)ln * (bounds.size[2] / (float)length);
-                npc2.transform.position = new Vector3(x + 0.5f, npcy, z + 0.5f); 
+                npc2.transform.position = new Vector3(x + 0.5f, 0, z + 0.5f); 
                 npc2.GetComponent<Rigidbody>().useGravity = true;
                 break;
             }
@@ -327,7 +328,7 @@ public class Maze : MonoBehaviour {
             if (solution[wn, ln][0] == TileType.FLOOR) {
                 float x = bounds.min[0] + (float)wn * (bounds.size[0] / (float)width);
                 float z = bounds.min[2] + (float)ln * (bounds.size[2] / (float)length);
-                npc3.transform.position = new Vector3(x + 0.5f, npcy, z + 0.5f); 
+                npc3.transform.position = new Vector3(x + 0.5f, 0, z + 0.5f); 
                 npc3.GetComponent<Rigidbody>().useGravity = true;
                 break;
             }
@@ -345,7 +346,7 @@ public class Maze : MonoBehaviour {
             if (solution[wn, ln][0] == TileType.FLOOR) {
                 float x = bounds.min[0] + (float)wn * (bounds.size[0] / (float)width);
                 float z = bounds.min[2] + (float)ln * (bounds.size[2] / (float)length);
-                npc4.transform.position = new Vector3(x + 0.5f, npcy, z + 0.5f);
+                npc4.transform.position = new Vector3(x + 0.5f, 0, z + 0.5f);
                 npc4.GetComponent<Rigidbody>().useGravity = true; 
                 break;
             }
