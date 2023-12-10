@@ -7,21 +7,18 @@ public class Skeleton : MonoBehaviour
 {
 
     NavMeshAgent agent;
-    Vector3 player;
+    Transform player;
     // Start is called before the first frame update
     void Start()
     {
-        agent = this.GetComponent<NavMeshAgent>();
-        // player = GameObject.FindGameObjectWithTag("Player").transform.position;
-        // UnityEngine.AI.NavMesh.BuildNavMesh();
+        agent = GetComponent<NavMeshAgent>();
+        player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     // Update is called once per frame
     void Update()
     {
-        // if (agent != null) {
-            // agent.SetDestination(player);
-        // }
+        agent.SetDestination(player.position);
     }
 }
 

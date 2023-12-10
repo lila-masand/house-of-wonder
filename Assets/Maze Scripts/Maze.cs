@@ -13,8 +13,8 @@ enum TileType
 public class Maze : MonoBehaviour {
     public int width = 23;
     public int length = 23;
-    public int middle = 12;
-    public float height = 2.5f;
+    public int middle = 11;
+    public float height = 2.15f;
     public GameObject npc1;
     public GameObject npc2;
     public GameObject npc3;
@@ -27,7 +27,7 @@ public class Maze : MonoBehaviour {
     private int function_calls = 0;
     private bool started = true;
     public Material wallMaterial;
-    // public NavMeshSurface navMesh;
+    public Material outerWallMaterial;
 
     private void Shuffle<T>(ref List<T> list)
     {
@@ -93,7 +93,7 @@ public class Maze : MonoBehaviour {
                     number_of_assigned_elements[(int)grid[w, l][0]]++;
             }
 
-        if ((number_of_assigned_elements[(int)TileType.WALL] > 65))
+        if ((number_of_assigned_elements[(int)TileType.WALL] > 70))
             return true;
         else
             return false;
@@ -112,7 +112,7 @@ public class Maze : MonoBehaviour {
                 }
             }
 
-        if ((number_of_potential_assignments[(int)TileType.WALL] < 24))
+        if ((number_of_potential_assignments[(int)TileType.WALL] < 50))
             return true;
         else
             return false;
@@ -256,6 +256,8 @@ public class Maze : MonoBehaviour {
                     cube.transform.localScale = new Vector3(bounds.size[0] / (float)width, height, bounds.size[2] / (float)length);
                     cube.transform.position = new Vector3(x + 0.5f, y + height / 2.0f, z + 0.5f);
                     cube.GetComponent<Renderer>().material = wallMaterial;
+                    NavMeshObstacle navObstacle = cube.AddComponent<NavMeshObstacle>();
+                    navObstacle.carving = true;
 
                     if (w == middle && l == middle) { 
                         //make center puzzle location unique
@@ -269,7 +271,8 @@ public class Maze : MonoBehaviour {
                         cube2.name = "WALL";
                         cube2.transform.localScale = new Vector3(bounds.size[0] / (float)width, height, bounds.size[2] / (float)length);
                         cube2.transform.position = new Vector3(x + 0.5f, y + height * 1.5f, z + 0.5f);
-                        cube2.GetComponent<Renderer>().material = wallMaterial;
+                        cube2.GetComponent<Renderer>().material = outerWallMaterial;
+                        cube.GetComponent<Renderer>().material = outerWallMaterial;
 
                     }
                 }
