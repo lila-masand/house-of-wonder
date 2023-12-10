@@ -10,9 +10,12 @@ public class PlatformTrigger : MonoBehaviour
     public Camera maincam;
     public Camera platformcam;
     public TMP_Text ControlPopUp;
+    public GameObject objToTrigger;
+
 
     bool activated = false;
     bool inRange = false;
+    private bool? vertical;
     //public GameObject obj;
 
     // Start is called before the first frame update
@@ -20,17 +23,42 @@ public class PlatformTrigger : MonoBehaviour
     {
         platformcam.enabled = false;
         ControlPopUp.enabled = false;
+        vertical = null;
+
+        if(objToTrigger != null)
+        {
+            if (objToTrigger.GetComponent<MovingPlatform>() != null)
+                vertical = false;
+
+            else if (objToTrigger.GetComponent<MovingPlatformVertical>() != null)
+                vertical = true;
+
+        }
+
         //maincam.enabled = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-
-       
-
-        if(inRange && Input.GetKey(KeyCode.Return) && !activated)
+        if (objToTrigger != null && vertical != null && !activated)
         {
+            if (!vertical ?? false)
+            {
+                objToTrigger.GetComponent<MovingPlatform>().activated = false;
+                vertical = null;
+            }
+
+            else if (vertical ?? false)
+            {
+                objToTrigger.GetComponent<MovingPlatformVertical>().activated = false;
+                vertical = null;
+            }
+        }
+
+        if (inRange && Input.GetKey(KeyCode.Return) && !activated)
+        {
+          
             StartCoroutine(WatchTrigger());
             activated = true;
         }
@@ -88,6 +116,10 @@ public class PlatformTrigger : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
 
         platformcam.enabled = false;
+        if (objToTrigger != null)
+        {
+            objToTrigger.GetComponent<MovingPlatform>().activated = true;
+        }
     }
 
 

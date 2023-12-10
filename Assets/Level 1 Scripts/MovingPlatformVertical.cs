@@ -9,7 +9,7 @@ public class MovingPlatformVertical : MonoBehaviour
     public GameObject target;
     public float velocity = 5f;
     public bool PlayerOn;
-
+    public bool activated;
     //for debugging
     //public float raytarget;
 
@@ -25,30 +25,33 @@ public class MovingPlatformVertical : MonoBehaviour
         // It will start by moving away from its origin 
         Physics.Raycast(origin, new Vector3(0f, -1f, 0f), out hit, Mathf.Infinity);
         PlayerOn = false;
+        activated = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (away && transform.position.y < hit.point.y + 1.5)
+        if (activated)
         {
-   
-            Physics.Raycast(transform.position, new Vector3(0f, 1f, 0f), out hit, Mathf.Infinity);
+            if (away && transform.position.y < hit.point.y + 1.5)
+            {
 
-            away = false;
+                Physics.Raycast(transform.position, new Vector3(0f, 1f, 0f), out hit, Mathf.Infinity);
+
+                away = false;
+            }
+
+            else if (!away && transform.position.y > hit.point.y - 1.5)
+            {
+                Physics.Raycast(transform.position, new Vector3(0f, -1f, 0f), out hit, Mathf.Infinity);
+
+                away = true;
+            }
+
+            float step = velocity * Time.deltaTime;
+
+            transform.position = Vector3.MoveTowards(transform.position, hit.point, step);
         }
-
-        else if (!away && transform.position.y > hit.point.y - 1.5)
-        {
-            Physics.Raycast(transform.position, new Vector3(0f, -1f, 0f), out hit, Mathf.Infinity);
-
-            away = true;
-        }
-
-        float step = velocity*Time.deltaTime;
-
-        transform.position = Vector3.MoveTowards(transform.position, hit.point, step);
-      
 
     }
 

@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
 
+// Script by Lila Masand
+// Last updated 2023
+
+
 public class PuzzleTile : MonoBehaviour
 {
     public GameObject puzzle;
