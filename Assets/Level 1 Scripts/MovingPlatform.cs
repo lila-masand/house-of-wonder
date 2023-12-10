@@ -8,6 +8,7 @@ public class MovingPlatform : MonoBehaviour
     //could maybe say that if target isn't null, raycast to target instead
     public GameObject target;
     public float velocity = 5f;
+    public bool activated;
     public bool PlayerOn;
 
     //for debugging
@@ -25,30 +26,33 @@ public class MovingPlatform : MonoBehaviour
         // It will start by moving away from its origin 
         Physics.Raycast(origin, new Vector3(0f, 0f, -1f), out hit, Mathf.Infinity);
         PlayerOn = false;
+        activated = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (away && transform.position.z < hit.point.z + 2.5)
+        if (activated)
         {
-   
-            Physics.Raycast(transform.position, new Vector3(0f, 0f, 1f), out hit, Mathf.Infinity);
+            if (away && transform.position.z < hit.point.z + 2.5)
+            {
 
-            away = false;
+                Physics.Raycast(transform.position, new Vector3(0f, 0f, 1f), out hit, Mathf.Infinity);
+
+                away = false;
+            }
+
+            else if (!away && transform.position.z > hit.point.z - 2.5)
+            {
+                Physics.Raycast(transform.position, new Vector3(0f, 0f, -1f), out hit, Mathf.Infinity);
+
+                away = true;
+            }
+
+            float step = velocity * Time.deltaTime;
+
+            transform.position = Vector3.MoveTowards(transform.position, hit.point, step);
         }
-
-        else if (!away && transform.position.z > hit.point.z - 2.5)
-        {
-            Physics.Raycast(transform.position, new Vector3(0f, 0f, -1f), out hit, Mathf.Infinity);
-
-            away = true;
-        }
-
-        float step = velocity*Time.deltaTime;
-
-        transform.position = Vector3.MoveTowards(transform.position, hit.point, step);
-      
 
     }
 
@@ -57,7 +61,7 @@ public class MovingPlatform : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            // need overall level script that has a variable tracking Thyra's last position?
+            // need overall level script that has a variable tracking player's last position?
 
             PlayerOn = true;
         }
@@ -68,7 +72,7 @@ public class MovingPlatform : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            // need overall level script that has a variable tracking Thyra's last position?
+            // need overall level script that has a variable tracking player's last position?
 
             PlayerOn = false;
 

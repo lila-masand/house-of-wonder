@@ -4,6 +4,9 @@ using UnityEngine;
 using TMPro;
 using System.Diagnostics;
 
+// Script by Lila Masand
+//  Last updated 2023
+
 public class FloorPuzzle : MonoBehaviour
 {
 
@@ -21,14 +24,6 @@ public class FloorPuzzle : MonoBehaviour
     public bool correct;
     public Animation anim;
     //public TMP_Text ControlPopUp;
-
-    //public GameObject Column0;
-    //public GameObject Column1;
-    //public GameObject Column2;
-    //public GameObject Column3;
-    //public GameObject Column4;
-    //public GameObject Column5;
-
 
     // one list for each column
     private List<int>[] solution;
