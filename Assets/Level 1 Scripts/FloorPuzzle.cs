@@ -231,6 +231,7 @@ public class FloorPuzzle : MonoBehaviour
         PuzzleCam.enabled = false;
         PlayerCam.enabled = false;
         MainCam.enabled = true;
+        yield return new WaitForSeconds(0.5f);
         toTrigger.GetComponent<Animator>().SetBool("activated", true);
         yield return new WaitForSeconds(3f);
         PlayerCam.enabled = true;
