@@ -14,8 +14,13 @@ public class FloorPuzzle : MonoBehaviour
     public Camera MainCam;
     public Camera PlayerCam;
     public GameObject player;
+
+
     public GameObject LoadZone;
+    public GameObject toTrigger;
     //public GameObject platform;
+
+
     public List<string> userSolution;
     public List<string> solCheckable;
     public int userInputNum;
@@ -75,9 +80,9 @@ public class FloorPuzzle : MonoBehaviour
                 //PuzzleCam.enabled = true;
 
                 StartCoroutine(RunPuzzle());
-                PuzzleCam.enabled = true;
+                
 
-                if(solCheckable.Count < 5)
+                if (solCheckable.Count < 5)
                 {
                     solCheckable = AddSolution();
 
@@ -99,7 +104,8 @@ public class FloorPuzzle : MonoBehaviour
                     userSolution.Clear();
                     solCheckable.Clear();
                     userInputNum = 0;
-                    PuzzleCam.enabled = false;
+
+                    
                     correct = true;
                     solved = false;
 
@@ -111,9 +117,8 @@ public class FloorPuzzle : MonoBehaviour
                     //UnityEngine.Debug.Log(solCheckable.Count);
 
                     //UnityEngine.Debug.Log(userSolution.Count);
-                    PuzzleCam.enabled = false;
+                    StartCoroutine(ObjActivate());
 
-                    anim.Play();
                     solved = true;
                     solutionInput = false;
                 }
@@ -129,6 +134,8 @@ public class FloorPuzzle : MonoBehaviour
 
     IEnumerator RunPuzzle()
     {
+        PuzzleCam.enabled = true;
+        PlayerCam.enabled = false;
 
         for (int i = 0; i < 6; i++)
         {
@@ -156,6 +163,9 @@ public class FloorPuzzle : MonoBehaviour
         }
 
         solutionInput = true;
+        PuzzleCam.enabled = false;
+        PlayerCam.enabled = true;
+
 
 
     }
@@ -214,11 +224,15 @@ public class FloorPuzzle : MonoBehaviour
 
     }
 
-    IEnumerator DoorActivate()
+    IEnumerator ObjActivate()
     {
-        LoadZone.GetComponent<Animator>().SetBool("PuzzleSolved", true);
+        //LoadZone.GetComponent<Animator>().SetBool("PuzzleSolved", true);
+        
+        PuzzleCam.enabled = false;
         PlayerCam.enabled = false;
-        yield return new WaitForSeconds(2f);
+        MainCam.enabled = true;
+        toTrigger.GetComponent<Animator>().SetBool("activated", true);
+        yield return new WaitForSeconds(3f);
         PlayerCam.enabled = true;
         MainCam.enabled = false;
         //MainCam.targetDisplay = 2;
