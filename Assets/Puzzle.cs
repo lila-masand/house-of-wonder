@@ -47,7 +47,13 @@ public class Puzzle : MonoBehaviour
             if (player.transform.position.x > 32f && player.transform.position.z > 372f && player.transform.position.z <= 373.5f)
             {
                 //MainCam.enabled = false;
-                PuzzleCam.enabled = true;
+                ControlPopUp.enabled = true;
+
+                if (Input.GetKey(KeyCode.Return))
+                {
+                    PuzzleCam.enabled = true;
+                    ControlPopUp.enabled = false;
+                }
             }
 
             else
@@ -55,6 +61,7 @@ public class Puzzle : MonoBehaviour
 
                 //MainCam.enabled = true;
                 PuzzleCam.enabled = false;
+                ControlPopUp.enabled = false;
             }
 
 

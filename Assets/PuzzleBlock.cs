@@ -8,8 +8,8 @@ public class PuzzleBlock : MonoBehaviour
 {
     public GameObject puzzle;
     bool allowed;
-    public Material red;
-    public Material white;
+    //public Material red;
+    //public Material white;
 
     private Puzzle puzzleScript;
 
@@ -25,7 +25,7 @@ public class PuzzleBlock : MonoBehaviour
     void Update()
     {
 
-        //allowed = puzzleScript.solutionInput;
+        allowed = puzzleScript.solutionInput;
 
     }
 
@@ -33,7 +33,7 @@ public class PuzzleBlock : MonoBehaviour
     {
         if (allowed)
         {
-            //this.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.red);
+            this.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.red);
             //this.GetComponent<Renderer>().material = red;
 
 
@@ -46,7 +46,7 @@ public class PuzzleBlock : MonoBehaviour
     {
         if (allowed)
         {
-            //this.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.white);
+            this.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.white);
             //this.GetComponent<Renderer>().material = white;
 
 

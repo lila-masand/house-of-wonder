@@ -51,7 +51,7 @@ public class FloorPuzzle : MonoBehaviour
         userInputNum = 0;
         userSolution = new List<string>();
         solCheckable = new List<string>();
-
+        PuzzleCam.enabled = false;
         //solution = getPuzzle();
 
         //ControlPopUp.enabled = false;

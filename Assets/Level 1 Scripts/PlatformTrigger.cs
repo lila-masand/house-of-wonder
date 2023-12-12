@@ -118,7 +118,11 @@ public class PlatformTrigger : MonoBehaviour
         platformcam.enabled = false;
         if (objToTrigger != null)
         {
-            objToTrigger.GetComponent<MovingPlatform>().activated = true;
+            if (objToTrigger.GetComponent<MovingPlatform>() != null)
+                objToTrigger.GetComponent<MovingPlatform>().activated = true;
+
+            else if (objToTrigger.GetComponent<MovingPlatformVertical>() != null)
+                objToTrigger.GetComponent<MovingPlatformVertical>().activated = true;
         }
     }
 
