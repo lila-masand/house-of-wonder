@@ -34,7 +34,7 @@ public class MovingPlatform : MonoBehaviour
     {
         if (activated)
         {
-            if (away && transform.position.z < hit.point.z + 2.5)
+            if (away && transform.position.z < hit.point.z + 2)
             {
 
                 Physics.Raycast(transform.position, new Vector3(0f, 0f, 1f), out hit, Mathf.Infinity);
@@ -42,7 +42,7 @@ public class MovingPlatform : MonoBehaviour
                 away = false;
             }
 
-            else if (!away && transform.position.z > hit.point.z - 2.5)
+            else if (!away && transform.position.z > hit.point.z - 2)
             {
                 Physics.Raycast(transform.position, new Vector3(0f, 0f, -1f), out hit, Mathf.Infinity);
 

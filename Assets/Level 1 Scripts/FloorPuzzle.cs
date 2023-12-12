@@ -14,6 +14,7 @@ public class FloorPuzzle : MonoBehaviour
     public Camera MainCam;
     public Camera PlayerCam;
     public GameObject player;
+    public GameObject puzzleSwitch;
 
 
     public GameObject LoadZone;
@@ -27,8 +28,9 @@ public class FloorPuzzle : MonoBehaviour
     public bool solutionInput;
     public bool solved;
     public bool correct;
+    public bool isPlaying;
     public Animation anim;
-    //public TMP_Text ControlPopUp;
+    public TMP_Text buttonPrompt;
 
     // one list for each column
     private List<int>[] solution;
@@ -52,6 +54,7 @@ public class FloorPuzzle : MonoBehaviour
         userSolution = new List<string>();
         solCheckable = new List<string>();
         PuzzleCam.enabled = false;
+        isPlaying = false;
         //solution = getPuzzle();
 
         //ControlPopUp.enabled = false;
@@ -74,31 +77,47 @@ public class FloorPuzzle : MonoBehaviour
             //}
 
 
-            if (!solutionInput && (player.transform.position - tile00.transform.position).magnitude < 2f && Input.GetKey(KeyCode.Return))
+            if (!isPlaying && !solutionInput && (player.transform.position - puzzleSwitch.transform.position).magnitude < 3f)
             {
                 //solution = getPuzzle();
                 //PuzzleCam.enabled = true;
+                buttonPrompt.enabled = true;
 
-                StartCoroutine(RunPuzzle());
-                
-
-                if (solCheckable.Count < 5)
+                if (Input.GetKey(KeyCode.Return))
                 {
-                    solCheckable = AddSolution();
+
+                    puzzleSwitch.GetComponent<MeshRenderer>().material.color = new Color(255f, 1f, 1f, .5f);
+                    buttonPrompt.enabled = false;
+
+
+                    StartCoroutine(RunPuzzle());
+
+
+                    if (solCheckable.Count < 5)
+                    {
+                        solCheckable = AddSolution();
+
+                    }
 
                 }
-               
-
             }
 
+            else if ((player.transform.position - puzzleSwitch.transform.position).magnitude > 3f)
+            {
 
-            else if (solutionInput)
+                buttonPrompt.enabled = false;
+            }
+
+            if (solutionInput)
             {
                 //UnityEngine.Debug.Log(solCheckable.Count);
+                buttonPrompt.enabled = false;
 
                 if (!correct)
                 {
                     StartCoroutine(FlashAll());
+                    puzzleSwitch.GetComponent<MeshRenderer>().material.color = new Color(1f, 1f, 1f, .5f);
+
                     solutionInput = false;
                     solution = getPuzzle();
                     userSolution.Clear();
@@ -118,6 +137,8 @@ public class FloorPuzzle : MonoBehaviour
 
                     //UnityEngine.Debug.Log(userSolution.Count);
                     StartCoroutine(ObjActivate());
+                    puzzleSwitch.GetComponent<MeshRenderer>().material.color = new Color(1f, 255f, 1f, .5f);
+                   
 
                     solved = true;
                     solutionInput = false;
@@ -136,6 +157,8 @@ public class FloorPuzzle : MonoBehaviour
     {
         PuzzleCam.enabled = true;
         PlayerCam.enabled = false;
+        isPlaying = true;
+
 
         for (int i = 0; i < 6; i++)
         {
@@ -165,8 +188,7 @@ public class FloorPuzzle : MonoBehaviour
         solutionInput = true;
         PuzzleCam.enabled = false;
         PlayerCam.enabled = true;
-
-
+        isPlaying = false;
 
     }
 
@@ -284,7 +306,7 @@ public class FloorPuzzle : MonoBehaviour
                         {
                             currRow++;
                             newSolution[i].Add(currRow);
-                            UnityEngine.Debug.Log(i + "" + currRow + "\n");
+                            //UnityEngine.Debug.Log(i + "" + currRow + "\n");
                             //solCheckable.Add(i + "" + currRow);
                             break;
                         }
@@ -292,7 +314,7 @@ public class FloorPuzzle : MonoBehaviour
                     case 1:
                         {
                             newSolution[i + 1].Add(currRow);
-                            UnityEngine.Debug.Log((i + 1) + "" + currRow + "\n");
+                            //UnityEngine.Debug.Log((i + 1) + "" + currRow + "\n");
                             //solCheckable.Add(i + "" + currRow);
 
                             done = true;

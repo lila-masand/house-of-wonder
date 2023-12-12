@@ -29,13 +29,10 @@ public class MoveWithPlatform : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             PlayerOn = true;
+
             player.GetComponent<Rigidbody>().isKinematic = true;
 
-            //player.transform.localScale = new Vector3(1f, 1f, 1f);
-
-            player.transform.parent = this.transform;
-            player.transform.localScale = Vector3.one;
-            player.transform.localScale = new Vector3(1f / transform.lossyScale.x, 1f / transform.lossyScale.y, 1f / transform.lossyScale.z);
+            player.transform.parent = this.transform; 
         }
 
     }
@@ -44,11 +41,9 @@ public class MoveWithPlatform : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            // need overall level script that has a variable tracking Thyra's last position?
             PlayerOn = false;
 
             player.transform.parent = null;
-
         }
 
     }

@@ -15,7 +15,7 @@ public class MovingPlatformVertical : MonoBehaviour
 
     private bool away = true;
     private Vector3 origin;
-    private RaycastHit hit;
+    public RaycastHit hit;
     
     // Start is called before the first frame update
     void Start()
