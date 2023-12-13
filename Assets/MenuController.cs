@@ -13,9 +13,10 @@ public class MenuController : MonoBehaviour
 
     // Start Game button reference
     public Button start_button;
+    public string level_1_scene;
 
     // String name of the starting level
-    public string start_scene_name;
+    // public string ;
 
     void Start()
     {
@@ -38,6 +39,6 @@ public class MenuController : MonoBehaviour
         }
 
         AudioManager.instance.SwapTracks(level_1_track);
-        SceneManager.LoadScene(start_scene_name);
+        SceneManager.LoadScene(level_1_scene, LoadSceneMode.Single); // Load single to fix lighting issues
     }
 }

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.45110303, g: 0.4996618, b: 0.56734455, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -210,13 +210,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 122965443}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
+  m_LocalRotation: {x: -0.19527219, y: 0.69729453, z: -0.4471958, w: 0.52503806}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 24.746, y: 93.074, z: -54.779}
 --- !u!1 &240091858
 GameObject:
   m_ObjectHideFlags: 0
@@ -1099,11 +1099,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba8af4833fcd1df48b025d0bfb210869, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level_1_track: {fileID: 8300000, guid: 75717093b95878bdc85a79245de83b2c, type: 3}
+  level_1_track: {fileID: 8300000, guid: b748f03ccda63442d94130bde0ce8958, type: 3}
   click_sound: {fileID: 8300000, guid: d85e14c0d9a7ad74dbc54efe609144f9, type: 3}
   menu_source: {fileID: 341608236}
   start_button: {fileID: 1099262055}
-  start_scene_name: Prototype Level
+  level_1_scene: Level 1
 --- !u!1001 &2012105225
 PrefabInstance:
   m_ObjectHideFlags: 0

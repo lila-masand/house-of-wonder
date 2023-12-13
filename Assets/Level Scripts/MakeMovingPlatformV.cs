@@ -22,6 +22,13 @@ public class MakeMovingPlatformV : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
+            // Fix additional-velocity bug
+            MovingPlatformVertical old_vertical = this.transform.gameObject.GetComponent<MovingPlatformVertical>();
+            if (old_vertical != null)
+            {
+                Destroy(old_vertical);
+            }
+
             this.transform.gameObject.AddComponent<MovingPlatformVertical>();
             this.transform.gameObject.GetComponent<MovingPlatformVertical>().velocity = velocity;
         }
