@@ -4475,7 +4475,7 @@ MonoBehaviour:
   solved: 0
   ControlPopUp: {fileID: 225458939}
   objToTrigger: {fileID: 0}
-  puzzleLength: 3
+  puzzleLength: 4
   statecam: {fileID: 0}
 --- !u!4 &1326867648
 Transform:
