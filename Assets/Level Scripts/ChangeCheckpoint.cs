@@ -8,8 +8,14 @@ public class ChangeCheckpoint : MonoBehaviour
 
     public GameObject check;
     public GameObject respawnNet;
-    public respawn respawnScript;
-    
+    private respawn respawnScript;
+
+    void Start()
+    {
+
+        respawnScript = respawnNet.GetComponent<respawn>();
+    }
+
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
