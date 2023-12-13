@@ -24,7 +24,7 @@ public class SymbolPuzzle : MonoBehaviour
 
     private int[] solution;
     private Transform tileMM;
-    public CinemachineVirtualCamera vcam;
+    //public CinemachineVirtualCamera vcam;
     public CinemachineStateDrivenCamera statecam;
 
 
@@ -39,8 +39,11 @@ public class SymbolPuzzle : MonoBehaviour
         //MainCam.enabled = true;
         //ControlPopUp.enabled = false;
         //cameraBrain = MainCam.GetComponent<CinemachineBrain>();
+        ControlPopUp.enabled = false;
+
         tileMM = transform.GetChild(4);
-        statecam.enabled = false;
+        if(statecam != null)
+            statecam.enabled = false;
 
 
     }
@@ -133,6 +136,8 @@ public class SymbolPuzzle : MonoBehaviour
     IEnumerator ObjActivate()
     {
         //LoadZone.GetComponent<Animator>().SetBool("PuzzleSolved", true);
+        //statecam.enabled = true;
+        //MainCam.enabled = true;
 
         PuzzleCam.enabled = false;
         PlayerCam.enabled = false;

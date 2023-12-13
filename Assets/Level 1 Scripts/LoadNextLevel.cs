@@ -7,8 +7,9 @@ public class LoadNextLevel : MonoBehaviour
 {
     void OnTriggerEnter(Collider other)
     {
-      
         SceneManager.LoadScene("Maze Level");
+
+        //SceneManager.SetActiveScene(SceneManager.GetSceneByName("Maze Level"));
         
     }
 

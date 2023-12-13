@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 7def0e91d5efefa4c93970844c3332f2, type: 2}
   m_LightingSettings: {fileID: 1726544698}
 --- !u!196 &4
 NavMeshSettings:
@@ -45599,15 +45599,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4041194926758732551, guid: b1a631536f8a44243a9155757f95fa9a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 44.5
+      value: 8.2
       objectReference: {fileID: 0}
     - target: {fileID: 4041194926758732551, guid: b1a631536f8a44243a9155757f95fa9a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.200001
+      value: 8.3
       objectReference: {fileID: 0}
     - target: {fileID: 4041194926758732551, guid: b1a631536f8a44243a9155757f95fa9a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 547.4
+      value: 538.10004
       objectReference: {fileID: 0}
     - target: {fileID: 4041194926758732551, guid: b1a631536f8a44243a9155757f95fa9a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -49235,7 +49235,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 587850320}
+  m_Mesh: {fileID: 307923324}
 --- !u!33 &1106988866
 MeshFilter:
   m_ObjectHideFlags: 10

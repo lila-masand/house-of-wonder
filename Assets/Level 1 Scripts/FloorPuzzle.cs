@@ -35,8 +35,8 @@ public class FloorPuzzle : MonoBehaviour
     // one list for each column
     private List<int>[] solution;
     private Transform tile00;
-    public CinemachineVirtualCamera vcam1;
-    public CinemachineVirtualCamera vcam2;
+    //public CinemachineVirtualCamera vcam1;
+    //public CinemachineVirtualCamera vcam2;
     public CinemachineStateDrivenCamera statecam;
 
     //private GameObject parent;
@@ -262,12 +262,12 @@ public class FloorPuzzle : MonoBehaviour
         
         PuzzleCam.enabled = false;
         PlayerCam.enabled = false;
-        MainCam.enabled = true;
+        //MainCam.enabled = true;
         yield return new WaitForSeconds(0.5f);
         toTrigger.GetComponent<Animator>().SetBool("activated", true);
         yield return new WaitForSeconds(3f);
         PlayerCam.enabled = true;
-        MainCam.enabled = false;
+        //MainCam.enabled = false;
         buttonPrompt.enabled = false;
 
         //vcam1.m_Priority = 9;
