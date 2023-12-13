@@ -45,12 +45,10 @@ public class PuzzleTile : MonoBehaviour
                 UnityEngine.Debug.Log(puzzleScript.userSolution[puzzleScript.userInputNum - 1]);
 
                 puzzleScript.correct = false;
-
             }
 
-            UnityEngine.Debug.Log(puzzleScript.solCheckable.Count);
-
-            UnityEngine.Debug.Log(puzzleScript.userSolution.Count);
+            //UnityEngine.Debug.Log(puzzleScript.solCheckable.Count);
+            //UnityEngine.Debug.Log(puzzleScript.userSolution.Count);
             pressed = true;
         }
     }

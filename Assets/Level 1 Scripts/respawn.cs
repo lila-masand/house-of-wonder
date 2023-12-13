@@ -24,8 +24,6 @@ public class respawn : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            // need overall level script that has a variable tracking Thyra's last position?
-
             player.transform.position = respawn_point.transform.position;
 
         }

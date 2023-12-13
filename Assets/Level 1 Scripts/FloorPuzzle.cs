@@ -9,18 +9,14 @@ using Cinemachine;
 
 public class FloorPuzzle : MonoBehaviour
 {
-
     public Camera PuzzleCam;
     public Camera MainCam;
     public Camera PlayerCam;
     public GameObject player;
     public GameObject puzzleSwitch;
 
-
     public GameObject LoadZone;
     public GameObject toTrigger;
-    //public GameObject platform;
-
 
     public List<string> userSolution;
     public List<string> solCheckable;
@@ -35,11 +31,8 @@ public class FloorPuzzle : MonoBehaviour
     // one list for each column
     private List<int>[] solution;
     private Transform tile00;
-    //public CinemachineVirtualCamera vcam1;
-    //public CinemachineVirtualCamera vcam2;
     public CinemachineStateDrivenCamera statecam;
 
-    //private GameObject parent;
     //private CinemachineBrain cameraBrain;
 
     void Start()
@@ -48,7 +41,6 @@ public class FloorPuzzle : MonoBehaviour
 
         solutionInput = false;
         userSolution = new List<string>();
-        //parent = transform.parent.gameObject;
         solved = false;
         MainCam.enabled = true;
         tile00 = (transform.GetChild(0)).transform.GetChild(0);
@@ -58,7 +50,6 @@ public class FloorPuzzle : MonoBehaviour
         solCheckable = new List<string>();
         PuzzleCam.enabled = false;
         isPlaying = false;
-        //solution = getPuzzle();
         statecam.enabled = false;
 
         //ControlPopUp.enabled = false;
@@ -69,54 +60,25 @@ public class FloorPuzzle : MonoBehaviour
     {
         if (!solved)
         {
-            // automatically switch to puzzle camera when switch pressed
-            //if ((player.transform.position - tile00.transform.position).magnitude < 1f)
-            //{
-            //    PuzzleCam.enabled = true;
-            //}
-
-            //else
-            //{
-            //    PuzzleCam.enabled = false;
-            //}
-
-
-            if (!isPlaying && !solutionInput && (player.transform.position - puzzleSwitch.transform.position).magnitude < 3f)
+            if (!isPlaying && !solutionInput && (player.transform.position - puzzleSwitch.transform.position).magnitude < 3f && Input.GetKey(KeyCode.Return))
             {
-                //solution = getPuzzle();
-                //PuzzleCam.enabled = true;
-                //buttonPrompt.enabled = true;
+                puzzleSwitch.GetComponent<MeshRenderer>().material.color = new Color(255f, 1f, 1f, .5f);
+                buttonPrompt.enabled = false;
 
-                if (Input.GetKey(KeyCode.Return))
-                {
+                StartCoroutine(RunPuzzle());
 
-                    puzzleSwitch.GetComponent<MeshRenderer>().material.color = new Color(255f, 1f, 1f, .5f);
-                    buttonPrompt.enabled = false;
-
-
-                    StartCoroutine(RunPuzzle());
-
-
-                    if (solCheckable.Count < 5)
-                    {
-                        solCheckable = AddSolution();
-
-                    }
-
-                }
+                if (solCheckable.Count < 5)
+                    solCheckable = AddSolution();                
             }
 
             else if (isPlaying)
             {
-
                 buttonPrompt.enabled = false;
             }
 
             if (solutionInput)
             {
                 //UnityEngine.Debug.Log(solCheckable.Count);
-                //buttonPrompt.enabled = false;
-
                 if (!correct)
                 {
                     StartCoroutine(FlashAll());
@@ -131,32 +93,21 @@ public class FloorPuzzle : MonoBehaviour
                     
                     correct = true;
                     solved = false;
-
-
                 }
 
                 else if((userSolution.Count == solCheckable.Count) && correct)
                 {
                     //UnityEngine.Debug.Log(solCheckable.Count);
-
                     //UnityEngine.Debug.Log(userSolution.Count);
-                    //vcam1.m_Priority = 10;
-                    //vcam2.m_Priority = 10;
-                    //statecam.m_Priority = 10;
+
                     statecam.enabled = true;
-                    //statecam.SetActive(true);
 
                     StartCoroutine(ObjActivate());
                     puzzleSwitch.GetComponent<MeshRenderer>().material.color = new Color(1f, 255f, 1f, .5f);
                    
-
                     solved = true;
                     solutionInput = false;
                 }
-
-               
-                //coroutine for inputing the player's choices as they walk over the tiles?
-                
 
             }
         }
@@ -169,7 +120,7 @@ public class FloorPuzzle : MonoBehaviour
         PlayerCam.enabled = false;
         isPlaying = true;
 
-
+        // turn on tiles one at a time
         for (int i = 0; i < 6; i++)
         {
             //could also make an array of the GameObjects called grid
@@ -185,6 +136,7 @@ public class FloorPuzzle : MonoBehaviour
 
         yield return new WaitForSeconds(2f);
 
+        // turn them all off at once
         for (int i = 0; i < 6; i++)
         {
             Transform currColumn = transform.GetChild(i);
@@ -199,13 +151,6 @@ public class FloorPuzzle : MonoBehaviour
         PuzzleCam.enabled = false;
         PlayerCam.enabled = true;
         isPlaying = false;
-
-    }
-
-    IEnumerator CheckTiles()
-    {
-        yield return null;
-
     }
 
     private List<string> AddSolution()
@@ -214,16 +159,13 @@ public class FloorPuzzle : MonoBehaviour
 
         for (int i = 0; i < 6; i++)
         {
-            //could also make an array of the GameObjects called grid
             Transform currColumn = transform.GetChild(i);
 
             for (int j = 0; j < solution[i].Count; j++)
             {
 
                 sol.Add(i + "" + solution[i][j]);
-                //UnityEngine.Debug.Log(i + "" + solution[i][j] + ", ");
             }
-
         }
 
         return sol;
@@ -253,30 +195,18 @@ public class FloorPuzzle : MonoBehaviour
                 currColumn.GetChild(j).GetComponent<Animator>().SetBool("On", false);
             }
         }
-
     }
 
     IEnumerator ObjActivate()
-    {
-        //LoadZone.GetComponent<Animator>().SetBool("PuzzleSolved", true);
-        
+    {        
         PuzzleCam.enabled = false;
         PlayerCam.enabled = false;
-        //MainCam.enabled = true;
         yield return new WaitForSeconds(0.5f);
         toTrigger.GetComponent<Animator>().SetBool("activated", true);
         yield return new WaitForSeconds(3f);
         PlayerCam.enabled = true;
-        //MainCam.enabled = false;
         buttonPrompt.enabled = false;
-
-        //vcam1.m_Priority = 9;
-        //vcam2.m_Priority = 9;
-        //statecam.m_Priority = 9;
-
         statecam.enabled = false;
-
-        //MainCam.targetDisplay = 2;
     }
 
 
@@ -284,11 +214,6 @@ public class FloorPuzzle : MonoBehaviour
     {
         System.Random picker = new System.Random();
         List<int>[] newSolution = { new List<int> (), new List<int>(), new List<int>(), new List<int>(), new List<int>(), new List<int>(), new List<int>(), new List<int>(), new List<int>() };
-
-        //for(int i = 0;i < 9; i++)
-        //{
-        //    newSolution[i] = new List<int> ();
-        //}
 
         int currRow = picker.Next(4);
 
@@ -302,14 +227,11 @@ public class FloorPuzzle : MonoBehaviour
             bool done = false;
             while (!done && tileCount <= 9)
             {
-                //UnityEngine.Debug.Log(i);
-                //nextTile = -1;
 
                 if (tileCount > 1 && newSolution[i].Count < 3 && currRow < 4)
                 {
                     nextTile = picker.Next(2);
                 }
-
                 // if there have already been 3 tiles chosen in this column, automatically go right
                 // same if we reached the top of the puzzle
                 else
@@ -323,34 +245,21 @@ public class FloorPuzzle : MonoBehaviour
                     case 0:
                         {
                             currRow++;
-                            newSolution[i].Add(currRow);
-                            //UnityEngine.Debug.Log(i + "" + currRow + "\n");
-                            //solCheckable.Add(i + "" + currRow);
+                            newSolution[i].Add(currRow);                        
                             break;
                         }
 
                     case 1:
                         {
                             newSolution[i + 1].Add(currRow);
-                            //UnityEngine.Debug.Log((i + 1) + "" + currRow + "\n");
-                            //solCheckable.Add(i + "" + currRow);
-
                             done = true;
-                            //i++;
                             break;
                         }
                 }
-
-                //solCheckable.Add(i + "" + currRow);
-
-
                 tileCount++;
             }
 
         }
-
-        //UnityEngine.Debug.Log(solCheckable.Count);
         return newSolution;
-
     }
 }

@@ -12,13 +12,11 @@ public class PlatformTrigger : MonoBehaviour
     public TMP_Text ControlPopUp;
     public GameObject objToTrigger;
 
-
     bool activated = false;
     bool inRange = false;
     private bool? vertical;
     //public GameObject obj;
 
-    // Start is called before the first frame update
     void Start()
     {
         platformcam.enabled = false;
@@ -32,13 +30,9 @@ public class PlatformTrigger : MonoBehaviour
 
             else if (objToTrigger.GetComponent<MovingPlatformVertical>() != null)
                 vertical = true;
-
         }
-
-        //maincam.enabled = true;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (objToTrigger != null && vertical != null && !activated)
@@ -57,47 +51,34 @@ public class PlatformTrigger : MonoBehaviour
         }
 
         if (inRange && Input.GetKey(KeyCode.Return) && !activated)
-        {
-          
+        {     
             StartCoroutine(WatchTrigger());
             activated = true;
         }
-
-
     }
 
     void OnTriggerEnter(Collider other)
     {
-
         if(other.gameObject.tag == "Player" && !activated)
         {
             inRange = true;
             ControlPopUp.enabled = true;
         }
-
     }
 
     void OnTriggerExit(Collider other)
     {
-
         inRange = false;
         ControlPopUp.enabled = false;
-
     }
 
-    // need to have this method call a coroutine
-    void OnCollisionEnter(Collision other)
-    {
-
-        if (other.gameObject.tag == "Player")
-        {
-
-            StartCoroutine(WatchTrigger());
-
-          
-        }
-
-    }
+    //void OnCollisionEnter(Collision other)
+    //{
+    //    if (other.gameObject.tag == "Player")
+    //    {
+    //        StartCoroutine(WatchTrigger());         
+    //    }
+    //}
 
     IEnumerator WatchTrigger()
     {
@@ -106,13 +87,6 @@ public class PlatformTrigger : MonoBehaviour
         platformcam.enabled = true;
 
         anim.Play();
-
-        //if (transform.name == "Cube1")
-        //    anim.Play("ActivatePlatform");
-
-        //else if (transform.name == "Cube")
-         //   anim.Play("ActivatePlatformTall");
-
         yield return new WaitForSeconds(1.5f);
 
         platformcam.enabled = false;
@@ -125,6 +99,4 @@ public class PlatformTrigger : MonoBehaviour
                 objToTrigger.GetComponent<MovingPlatformVertical>().activated = true;
         }
     }
-
-
 }

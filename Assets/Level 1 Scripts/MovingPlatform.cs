@@ -12,55 +12,46 @@ public class MovingPlatform : MonoBehaviour
     public bool PlayerOn;
     public bool moveOnX = false;
 
-    //for debugging
-    //public float raytarget;
-
+    // Platform will start by moving away from its origin 
     private bool away = true;
     private Vector3 origin;
     private RaycastHit hit;
     
-    // Start is called before the first frame update
     void Start()
     {
         origin = transform.position;
 
-        // It will start by moving away from its origin 
+        // moves horizontally on the z-axis
         if(!moveOnX)
             Physics.Raycast(origin, new Vector3(0f, 0f, -1f), out hit, Mathf.Infinity);
-        
+        // moves horizontally on the x-axis
         else if(moveOnX)
             Physics.Raycast(origin, new Vector3(-1f, 0f, 0f), out hit, Mathf.Infinity);
-
 
         PlayerOn = false;
         activated = true;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (activated)
         {
-
             if (!moveOnX)
             {
+                // when the platform gets close enough to its Raycast target, switch direction
                 if (away && transform.position.z < hit.point.z + 2)
                 {
-
                     Physics.Raycast(transform.position, new Vector3(0f, 0f, 1f), out hit, Mathf.Infinity);
-
                     away = false;
                 }
 
                 else if (!away && transform.position.z > hit.point.z - 2)
                 {
                     Physics.Raycast(transform.position, new Vector3(0f, 0f, -1f), out hit, Mathf.Infinity);
-
                     away = true;
                 }
 
                 float step = velocity * Time.deltaTime;
-
                 transform.position = Vector3.MoveTowards(transform.position, hit.point, step);
             }
 
@@ -68,23 +59,18 @@ public class MovingPlatform : MonoBehaviour
             {
                 if (away && transform.position.x < hit.point.x + 2)
                 {
-
                     Physics.Raycast(transform.position, new Vector3(1f, 0f, 0f), out hit, Mathf.Infinity);
-
                     away = false;
                 }
 
                 else if (!away && transform.position.x > hit.point.x - 2)
                 {
                     Physics.Raycast(transform.position, new Vector3(-1f, 0f, 0f), out hit, Mathf.Infinity);
-
                     away = true;
                 }
 
                 float step = velocity * Time.deltaTime;
-
                 transform.position = Vector3.MoveTowards(transform.position, hit.point, step);
-
             }
         }
 
@@ -95,8 +81,6 @@ public class MovingPlatform : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            // need overall level script that has a variable tracking player's last position?
-
             PlayerOn = true;
         }
 
@@ -106,8 +90,6 @@ public class MovingPlatform : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            // need overall level script that has a variable tracking player's last position?
-
             PlayerOn = false;
 
         }
