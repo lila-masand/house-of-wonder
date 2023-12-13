@@ -18,16 +18,18 @@ public class ButtonPrompt : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if ((player.transform.position - transform.position).magnitude < 1f)
-        {
+        
+    }
 
-            buttonPrompt.enabled = true;
 
-        }
+    void OnTriggerEnter(Collider other)
+    {
+        buttonPrompt.enabled = true;
+    }
 
-        else
-        {
-            buttonPrompt.enabled = false;
-        }
+    void OnTriggerExit(Collider other)
+    {
+
+        buttonPrompt.enabled = false;
     }
 }

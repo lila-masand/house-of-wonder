@@ -81,7 +81,7 @@ public class FloorPuzzle : MonoBehaviour
             {
                 //solution = getPuzzle();
                 //PuzzleCam.enabled = true;
-                buttonPrompt.enabled = true;
+                //buttonPrompt.enabled = true;
 
                 if (Input.GetKey(KeyCode.Return))
                 {
@@ -102,7 +102,7 @@ public class FloorPuzzle : MonoBehaviour
                 }
             }
 
-            else if ((player.transform.position - puzzleSwitch.transform.position).magnitude > 3f)
+            else if (isPlaying)
             {
 
                 buttonPrompt.enabled = false;
@@ -111,7 +111,7 @@ public class FloorPuzzle : MonoBehaviour
             if (solutionInput)
             {
                 //UnityEngine.Debug.Log(solCheckable.Count);
-                buttonPrompt.enabled = false;
+                //buttonPrompt.enabled = false;
 
                 if (!correct)
                 {
@@ -258,6 +258,7 @@ public class FloorPuzzle : MonoBehaviour
         yield return new WaitForSeconds(3f);
         PlayerCam.enabled = true;
         MainCam.enabled = false;
+        buttonPrompt.enabled = false;
         //MainCam.targetDisplay = 2;
     }
 

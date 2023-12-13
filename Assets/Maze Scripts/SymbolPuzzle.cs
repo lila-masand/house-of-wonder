@@ -18,6 +18,7 @@ public class SymbolPuzzle : MonoBehaviour
     public bool solutionInput;
     public bool solved;
     public TMP_Text ControlPopUp;
+    public GameObject objToTrigger;
 
 
 
@@ -32,7 +33,7 @@ public class SymbolPuzzle : MonoBehaviour
         userSolution = new List<int>();
         solved = false;
         //MainCam.enabled = true;
-        ControlPopUp.enabled = false;
+        //ControlPopUp.enabled = false;
         //cameraBrain = MainCam.GetComponent<CinemachineBrain>();
         tileMM = transform.GetChild(4);
 
@@ -48,7 +49,7 @@ public class SymbolPuzzle : MonoBehaviour
             if ((player.transform.position - tileMM.transform.position).magnitude < 1.5f && !PuzzleCam.enabled)
             {
                 //MainCam.enabled = false;
-                ControlPopUp.enabled = true;
+                //ControlPopUp.enabled = true;
 
                 if (Input.GetKey(KeyCode.Return))
                 {
@@ -61,7 +62,7 @@ public class SymbolPuzzle : MonoBehaviour
             {
                 //MainCam.enabled = true;
                 PuzzleCam.enabled = false;
-                ControlPopUp.enabled = false;
+                //ControlPopUp.enabled = false;
             }
 
             if (solutionInput && PuzzleCam.enabled && userSolution.Count == 4)
@@ -120,8 +121,27 @@ public class SymbolPuzzle : MonoBehaviour
 
     }
 
+
+    IEnumerator ObjActivate()
+    {
+        //LoadZone.GetComponent<Animator>().SetBool("PuzzleSolved", true);
+
+        PuzzleCam.enabled = false;
+        PlayerCam.enabled = false;
+        //MainCam.enabled = true;
+        yield return new WaitForSeconds(0.5f);
+        objToTrigger.GetComponent<Animator>().SetBool("activated", true);
+        yield return new WaitForSeconds(3f);
+        PlayerCam.enabled = true;
+        //MainCam.enabled = false;
+        ControlPopUp.enabled = false;
+        //MainCam.targetDisplay = 2;
+    }
+
     IEnumerator DoorActivate()
     {
+        ControlPopUp.enabled = false;
+
         //LoadZone.GetComponent<Animator>().SetBool("PuzzleSolved", true);
         PlayerCam.enabled = false;
         yield return new WaitForSeconds(2f);
