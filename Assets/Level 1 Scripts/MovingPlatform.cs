@@ -10,6 +10,7 @@ public class MovingPlatform : MonoBehaviour
     public float velocity = 5f;
     public bool activated;
     public bool PlayerOn;
+    public bool moveOnX = false;
 
     //for debugging
     //public float raytarget;
@@ -24,7 +25,13 @@ public class MovingPlatform : MonoBehaviour
         origin = transform.position;
 
         // It will start by moving away from its origin 
-        Physics.Raycast(origin, new Vector3(0f, 0f, -1f), out hit, Mathf.Infinity);
+        if(!moveOnX)
+            Physics.Raycast(origin, new Vector3(0f, 0f, -1f), out hit, Mathf.Infinity);
+        
+        else if(moveOnX)
+            Physics.Raycast(origin, new Vector3(-1f, 0f, 0f), out hit, Mathf.Infinity);
+
+
         PlayerOn = false;
         activated = true;
     }
@@ -34,24 +41,51 @@ public class MovingPlatform : MonoBehaviour
     {
         if (activated)
         {
-            if (away && transform.position.z < hit.point.z + 2)
+
+            if (!moveOnX)
             {
+                if (away && transform.position.z < hit.point.z + 2)
+                {
 
-                Physics.Raycast(transform.position, new Vector3(0f, 0f, 1f), out hit, Mathf.Infinity);
+                    Physics.Raycast(transform.position, new Vector3(0f, 0f, 1f), out hit, Mathf.Infinity);
 
-                away = false;
+                    away = false;
+                }
+
+                else if (!away && transform.position.z > hit.point.z - 2)
+                {
+                    Physics.Raycast(transform.position, new Vector3(0f, 0f, -1f), out hit, Mathf.Infinity);
+
+                    away = true;
+                }
+
+                float step = velocity * Time.deltaTime;
+
+                transform.position = Vector3.MoveTowards(transform.position, hit.point, step);
             }
 
-            else if (!away && transform.position.z > hit.point.z - 2)
+            else if (moveOnX)
             {
-                Physics.Raycast(transform.position, new Vector3(0f, 0f, -1f), out hit, Mathf.Infinity);
+                if (away && transform.position.x < hit.point.x + 2)
+                {
 
-                away = true;
+                    Physics.Raycast(transform.position, new Vector3(1f, 0f, 0f), out hit, Mathf.Infinity);
+
+                    away = false;
+                }
+
+                else if (!away && transform.position.x > hit.point.x - 2)
+                {
+                    Physics.Raycast(transform.position, new Vector3(-1f, 0f, 0f), out hit, Mathf.Infinity);
+
+                    away = true;
+                }
+
+                float step = velocity * Time.deltaTime;
+
+                transform.position = Vector3.MoveTowards(transform.position, hit.point, step);
+
             }
-
-            float step = velocity * Time.deltaTime;
-
-            transform.position = Vector3.MoveTowards(transform.position, hit.point, step);
         }
 
     }
