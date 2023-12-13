@@ -7,6 +7,8 @@ using UnityEngine.UI;
 // Scripts by Owen Ludlam
 public class MenuController : MonoBehaviour
 {
+    public AudioClip level_1_track;
+
     // Start Game button reference
     public Button start_button;
 
@@ -20,6 +22,7 @@ public class MenuController : MonoBehaviour
 
     void StartGame()
     {
+        AudioManager.instance.SwapTracks(level_1_track);
         SceneManager.LoadScene(start_scene_name);
     }
 }
