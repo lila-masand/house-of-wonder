@@ -11,7 +11,7 @@ public class AudioManager : MonoBehaviour
     // Sources to play audio from
     private AudioSource track_0;
     private AudioSource track_1;
-    private bool is_playing_track_0;
+    private bool current_track;
 
     // AudioManager instance for reference
     public static AudioManager instance;
@@ -42,21 +42,23 @@ public class AudioManager : MonoBehaviour
         track_1.loop = true;
 
         // Play track_0 on start
-        is_playing_track_0 = true;
+        current_track = true;
         track_0.clip = initial_track;
         track_0.Play();
     }
-    public void SwapTracks(AudioClip clip, float fadeTime = 2.25f)
+
+    // Swap between audio sources with a fade effect
+    public void SwapTracks(AudioClip clip, float fadeTime = 1f)
     {
         // Stop other coroutines to prevent sounds from getting entertwined
         StopAllCoroutines();
         
         // Swap the current music track
-        if (is_playing_track_0)
+        if (current_track)
         {
             track_1.clip = clip;
             track_1.Play();
-            is_playing_track_0 = false;
+            current_track = false;
 
             // Use a coroutine to fade between tracks
             StartCoroutine(Fade(track_1, track_0, fadeTime));
@@ -65,7 +67,7 @@ public class AudioManager : MonoBehaviour
         {
             track_0.clip = clip;
             track_0.Play();
-            is_playing_track_0 = true;
+            current_track = true;
 
             // Use a coroutine to fade between tracks
             StartCoroutine(Fade(track_0, track_1, fadeTime));
