@@ -73,7 +73,7 @@ public class SymbolPuzzle : MonoBehaviour
                 //ControlPopUp.enabled = false;
             }
 
-            if (solutionInput && PuzzleCam.enabled && userSolution.Count == 3)
+            if (solutionInput && PuzzleCam.enabled && userSolution.Count == puzzleLength)
             {
                 bool correct = true;
 
@@ -174,6 +174,17 @@ public class SymbolPuzzle : MonoBehaviour
 
         // pick 4 random blocks
         //return new int[] { picker.Next(9), picker.Next(9), picker.Next(9)};
-        return new int[] {3, 4, 8};
+        if (puzzleLength == 3)
+        {
+            return new int[] { 3, 4, 8 };
+        }
+
+        else if(puzzleLength == 4)
+        {
+            return new int[] { 1, 2, 5, 7 };
+        }
+
+        return new int[] { 0 };
+
     }
 }
