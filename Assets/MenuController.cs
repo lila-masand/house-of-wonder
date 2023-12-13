@@ -39,6 +39,7 @@ public class MenuController : MonoBehaviour
         }
 
         AudioManager.instance.SwapTracks(level_1_track);
+        PauseMenuController.instance.gameObject.SetActive(true); // Allow Pausing
         SceneManager.LoadScene(level_1_scene, LoadSceneMode.Single); // Load single to fix lighting issues
     }
 }
