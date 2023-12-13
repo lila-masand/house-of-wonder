@@ -19,11 +19,15 @@ public class SymbolPuzzle : MonoBehaviour
     public bool solved;
     public TMP_Text ControlPopUp;
     public GameObject objToTrigger;
-
+    public int puzzleLength = 3;
 
 
     private int[] solution;
     private Transform tileMM;
+    public CinemachineVirtualCamera vcam;
+    public CinemachineStateDrivenCamera statecam;
+
+
     //private CinemachineBrain cameraBrain;
 
     void Start()
@@ -36,6 +40,7 @@ public class SymbolPuzzle : MonoBehaviour
         //ControlPopUp.enabled = false;
         //cameraBrain = MainCam.GetComponent<CinemachineBrain>();
         tileMM = transform.GetChild(4);
+        statecam.enabled = false;
 
 
     }
@@ -65,11 +70,11 @@ public class SymbolPuzzle : MonoBehaviour
                 //ControlPopUp.enabled = false;
             }
 
-            if (solutionInput && PuzzleCam.enabled && userSolution.Count == 4)
+            if (solutionInput && PuzzleCam.enabled && userSolution.Count == 3)
             {
                 bool correct = true;
 
-                for (int i = 0; i < 4; i++)
+                for (int i = 0; i < puzzleLength; i++)
                 {
                     if (solution[i] != userSolution[i])
                     {
@@ -81,8 +86,11 @@ public class SymbolPuzzle : MonoBehaviour
 
                 if (correct)
                 {
+                    //vcam.m_Priority = 10;
+                    statecam.enabled = true;
                     PuzzleCam.enabled = false;
                     solved = true;
+                    StartCoroutine(ObjActivate());
                     //StartCoroutine(DoorActivate());
                 }
 
@@ -136,6 +144,10 @@ public class SymbolPuzzle : MonoBehaviour
         //MainCam.enabled = false;
         ControlPopUp.enabled = false;
         //MainCam.targetDisplay = 2;
+        //vcam.m_Priority = 9;
+        //statecam.m_Priority = 9;
+        statecam.enabled = false;
+
     }
 
     IEnumerator DoorActivate()
@@ -153,9 +165,10 @@ public class SymbolPuzzle : MonoBehaviour
 
     private int[] getPuzzle()
     {
-        System.Random picker = new System.Random();
+        //System.Random picker = new System.Random();
 
         // pick 4 random blocks
-        return new int[] { picker.Next(9), picker.Next(9), picker.Next(9), picker.Next(9) };
+        //return new int[] { picker.Next(9), picker.Next(9), picker.Next(9)};
+        return new int[] {3, 4, 8};
     }
 }

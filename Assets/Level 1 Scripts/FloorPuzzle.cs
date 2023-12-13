@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System.Diagnostics;
-
+using Cinemachine;
 // Script by Lila Masand
 //  Last updated 2023
 
@@ -35,6 +35,9 @@ public class FloorPuzzle : MonoBehaviour
     // one list for each column
     private List<int>[] solution;
     private Transform tile00;
+    public CinemachineVirtualCamera vcam1;
+    public CinemachineVirtualCamera vcam2;
+    public CinemachineStateDrivenCamera statecam;
 
     //private GameObject parent;
     //private CinemachineBrain cameraBrain;
@@ -56,6 +59,7 @@ public class FloorPuzzle : MonoBehaviour
         PuzzleCam.enabled = false;
         isPlaying = false;
         //solution = getPuzzle();
+        statecam.enabled = false;
 
         //ControlPopUp.enabled = false;
     }
@@ -136,6 +140,12 @@ public class FloorPuzzle : MonoBehaviour
                     //UnityEngine.Debug.Log(solCheckable.Count);
 
                     //UnityEngine.Debug.Log(userSolution.Count);
+                    //vcam1.m_Priority = 10;
+                    //vcam2.m_Priority = 10;
+                    //statecam.m_Priority = 10;
+                    statecam.enabled = true;
+                    //statecam.SetActive(true);
+
                     StartCoroutine(ObjActivate());
                     puzzleSwitch.GetComponent<MeshRenderer>().material.color = new Color(1f, 255f, 1f, .5f);
                    
@@ -259,6 +269,13 @@ public class FloorPuzzle : MonoBehaviour
         PlayerCam.enabled = true;
         MainCam.enabled = false;
         buttonPrompt.enabled = false;
+
+        //vcam1.m_Priority = 9;
+        //vcam2.m_Priority = 9;
+        //statecam.m_Priority = 9;
+
+        statecam.enabled = false;
+
         //MainCam.targetDisplay = 2;
     }
 
