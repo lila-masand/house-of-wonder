@@ -12,4 +12,6 @@ public class LoadNextLevel : MonoBehaviour
 
         //SceneManager.SetActiveScene(SceneManager.GetSceneByName("Maze Level"));     
     }
+
+
 }
