@@ -77,7 +77,7 @@ public class SymbolPuzzle : MonoBehaviour
                 {
                     AudioManager.instance.PlayEffect(gameObject, AudioManager.DefaultClips.SUCCESS);
                     //vcam.m_Priority = 10;
-                    // statecam.enabled = true; // not set
+                    statecam.enabled = true; // not set
                     PuzzleCam.enabled = false;
                     solved = true;
                     Debug.Log("Puzzle solved");
@@ -131,7 +131,7 @@ public class SymbolPuzzle : MonoBehaviour
 
     IEnumerator ObjActivate()
     {
-        yield break;
+        //yield break;
         //LoadZone.GetComponent<Animator>().SetBool("PuzzleSolved", true);
         //statecam.enabled = true;
         //MainCam.enabled = true;
