@@ -100,6 +100,16 @@ public class FloorPuzzle : MonoBehaviour
                     //UnityEngine.Debug.Log(solCheckable.Count);
                     //UnityEngine.Debug.Log(userSolution.Count);
 
+                    for (int i = 0; i < 6; i++)
+                    {
+                        Transform currColumn = transform.GetChild(i);
+
+                        for (int j = 0; j < solution[i].Count; j++)
+                        {
+                            currColumn.GetChild(solution[i][j]).GetComponent<Animator>().SetBool("Correct", true);
+                        }
+                    }
+
                     statecam.enabled = true;
 
                     StartCoroutine(ObjActivate());
@@ -198,7 +208,7 @@ public class FloorPuzzle : MonoBehaviour
     }
 
     IEnumerator ObjActivate()
-    {        
+    {
         PuzzleCam.enabled = false;
         PlayerCam.enabled = false;
         yield return new WaitForSeconds(0.5f);

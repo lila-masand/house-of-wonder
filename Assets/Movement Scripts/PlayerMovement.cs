@@ -38,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
         float air_speed = 1f;
         if(!character_controller.isGrounded)
         {
-            air_speed *= 0.7f; // Reduce air-movement
+            air_speed *= 0.6f; // Reduce air-movement
         }
 
         player_movement_input = new Vector3(0f, 0f, Input.GetAxis("Vertical") * air_speed);
@@ -64,15 +64,15 @@ public class PlayerMovement : MonoBehaviour
                 velocity.y = jump_force;
 
                 // Also move in direction you're facing (LM)
-                // velocity.z = (jump_force/2)*move_vector.z;
-                // velocity.x = (jump_force/2)*move_vector.x;
+                //velocity.z = (jump_force/3)*move_vector.z;
+                //velocity.x = (jump_force/3)*move_vector.x;
             }
         }
         else
         {
             // Apply generic gravity and play landing animation if applicable
             animator.SetTrigger("Land");
-            velocity.y -= gravity * -1.5f * Time.deltaTime;
+            velocity.y -= gravity * -2f * Time.deltaTime;
         }
 
 
