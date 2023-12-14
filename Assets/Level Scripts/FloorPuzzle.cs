@@ -33,6 +33,12 @@ public class FloorPuzzle : MonoBehaviour
     private Transform tile00;
     public CinemachineStateDrivenCamera statecam;
 
+    // SFX - Owen Ludlam
+    public AudioClip activate_puzzle_sfx;
+    public AudioClip win_sound_sfx;
+    public AudioClip lose_sound_sfx;
+    public AudioClip activate_obj_sfx;
+
     //private CinemachineBrain cameraBrain;
 
     void Start()
@@ -67,6 +73,9 @@ public class FloorPuzzle : MonoBehaviour
 
                 StartCoroutine(RunPuzzle());
 
+                // Owen Ludlam
+                AudioManager.instance.PlayEffect(gameObject, activate_puzzle_sfx);
+
                 if (solCheckable.Count < 5)
                     solCheckable = AddSolution();                
             }
@@ -90,7 +99,9 @@ public class FloorPuzzle : MonoBehaviour
                     solCheckable.Clear();
                     userInputNum = 0;
 
-                    
+                    // Owen Ludlam
+                    AudioManager.instance.PlayEffect(gameObject, lose_sound_sfx);
+
                     correct = true;
                     solved = false;
                 }
@@ -114,7 +125,10 @@ public class FloorPuzzle : MonoBehaviour
 
                     StartCoroutine(ObjActivate());
                     puzzleSwitch.GetComponent<MeshRenderer>().material.color = new Color(1f, 255f, 1f, .5f);
-                   
+
+                    // Owen Ludlam
+                    AudioManager.instance.PlayEffect(gameObject, win_sound_sfx);
+
                     solved = true;
                     solutionInput = false;
                 }
@@ -213,6 +227,13 @@ public class FloorPuzzle : MonoBehaviour
         PlayerCam.enabled = false;
         yield return new WaitForSeconds(0.5f);
         toTrigger.GetComponent<Animator>().SetBool("activated", true);
+
+        // Owen Ludlam
+        if(activate_obj_sfx != null)
+        {
+            AudioManager.instance.PlayEffect(toTrigger.gameObject, activate_obj_sfx);
+        }
+
         yield return new WaitForSeconds(3f);
         PlayerCam.enabled = true;
         buttonPrompt.enabled = false;
