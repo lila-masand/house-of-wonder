@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -13,6 +12,7 @@ public class MenuController : MonoBehaviour
 
     // Start Game button reference
     public Button start_button;
+    public Slider volume_slider;
     public string level_1_scene;
 
     // String name of the starting level
@@ -22,6 +22,7 @@ public class MenuController : MonoBehaviour
     {
         menu_source.clip = click_sound;
         start_button.onClick.AddListener(StartGame);
+        volume_slider.onValueChanged.AddListener(delegate { AudioManager.instance.SetVolume(volume_slider.value); });
     }
 
     void StartGame()
@@ -31,8 +32,9 @@ public class MenuController : MonoBehaviour
 
     private IEnumerator FinishClick()
     {
+        menu_source.volume = AudioManager.instance.global_volume;
         menu_source.Play();
-        
+
         while (menu_source.isPlaying)
         {
             yield return null;
@@ -40,6 +42,6 @@ public class MenuController : MonoBehaviour
 
         AudioManager.instance.SwapTracks(level_1_track);
         PauseMenuController.instance.gameObject.SetActive(true); // Allow Pausing
-        SceneManager.LoadScene(level_1_scene, LoadSceneMode.Single); // Load single to fix lighting issues
+        SceneManager.LoadScene(level_1_scene, LoadSceneMode.Single); // Load single to avoid glitch issues
     }
 }
