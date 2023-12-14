@@ -25,15 +25,11 @@ public class SymbolPuzzle : MonoBehaviour
     private Transform tileMM;
     //public CinemachineVirtualCamera vcam;
     public CinemachineStateDrivenCamera statecam;
-    private GameObject middleWall;
-    private GameObject puzzleObj;
-
-
     //private CinemachineBrain cameraBrain;
 
     void Start()
     {
-        // solution = getPuzzle();
+        solution = getPuzzle();
         solutionInput = false;
         userSolution = new List<int>();
         solved = false;
@@ -45,12 +41,6 @@ public class SymbolPuzzle : MonoBehaviour
         tileMM = transform.GetChild(4);
         if(statecam != null)
             statecam.enabled = false;
-
-        puzzleObj = GameObject.Find("Puzzle");
-        middleWall = GameObject.Find("MIDDLE");
-        // Debug.Log(middleWall);
-        // Debug.Log(puzzleObj);
-
     }
 
     // Update is called once per frame
@@ -59,7 +49,7 @@ public class SymbolPuzzle : MonoBehaviour
         if (!solved)
         {
             // bring up the control prompt when in range
-            if ((player.transform.position - tileMM.transform.position).magnitude < 3.0f && !PuzzleCam.enabled)
+            if ((player.transform.position - tileMM.transform.position).magnitude < 1.5f && !PuzzleCam.enabled)
             {
                 //MainCam.enabled = false;
                 //ControlPopUp.enabled = true;
@@ -71,7 +61,7 @@ public class SymbolPuzzle : MonoBehaviour
                     solutionInput = true;
                 }
             }
-            else if((player.transform.position - tileMM.transform.position).magnitude > 3.0f)
+            else if((player.transform.position - tileMM.transform.position).magnitude > 1.5f)
             {
                 //MainCam.enabled = true;
                 PuzzleCam.enabled = false;
@@ -88,14 +78,7 @@ public class SymbolPuzzle : MonoBehaviour
                     PuzzleCam.enabled = false;
                     solved = true;
                     Debug.Log("Puzzle solved");
-                    if (solved) {
-                        MoveDown(gameObject);
-                        // MoveDown(puzzleObj);
-                        // MoveDown(middleWall);
-                        MoveDown(GameObject.Find("MIDDLE"));
-                        MoveDown(GameObject.Find("Puzzle"));
-                    }
-                    // StartCoroutine(ObjActivate());
+                    StartCoroutine(ObjActivate());
                     //StartCoroutine(DoorActivate());
                 }
 
@@ -109,17 +92,6 @@ public class SymbolPuzzle : MonoBehaviour
         }
     }
 
-    void MoveDown(GameObject obj) {
-        if (obj != null) {
-            // Debug.Log("Move down");
-            obj.transform.position = new Vector3(obj.transform.position.x, obj.transform.position.y - Time.deltaTime * 2.0f, obj.transform.position.z);
-
-            // check if the puzzle is below or at specific spot
-            // if (GameObject.Find("Puzzle").transform.position.y <= -5.9f) {
-            //     solved = false;
-            // }
-        }
-    }
 
     IEnumerator FlashAll()
     {
