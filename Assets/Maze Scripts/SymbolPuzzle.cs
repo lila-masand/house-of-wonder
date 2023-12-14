@@ -5,6 +5,7 @@ using UnityEngine;
 using Cinemachine;
 using TMPro;
 using System.Security.Cryptography;
+using System.Linq;
 
 public class SymbolPuzzle : MonoBehaviour
 {
@@ -20,12 +21,12 @@ public class SymbolPuzzle : MonoBehaviour
     public TMP_Text ControlPopUp;
     public GameObject objToTrigger;
     public int puzzleLength = 4;
-
-
     public List<int> solution;
     private Transform tileMM;
     //public CinemachineVirtualCamera vcam;
     public CinemachineStateDrivenCamera statecam;
+    private GameObject middleWall;
+    private GameObject puzzleObj;
 
 
     //private CinemachineBrain cameraBrain;
@@ -33,7 +34,6 @@ public class SymbolPuzzle : MonoBehaviour
     void Start()
     {
         // solution = getPuzzle();
-        Debug.Log(solution);
         solutionInput = false;
         userSolution = new List<int>();
         solved = false;
@@ -46,6 +46,10 @@ public class SymbolPuzzle : MonoBehaviour
         if(statecam != null)
             statecam.enabled = false;
 
+        puzzleObj = GameObject.Find("Puzzle");
+        middleWall = GameObject.Find("MIDDLE");
+        // Debug.Log(middleWall);
+        // Debug.Log(puzzleObj);
 
     }
 
@@ -73,25 +77,10 @@ public class SymbolPuzzle : MonoBehaviour
                 PuzzleCam.enabled = false;
                 //ControlPopUp.enabled = false;
             }
-
-            if (solutionInput && PuzzleCam.enabled && userSolution.Count == puzzleLength)
+            
+            if (solutionInput && PuzzleCam.enabled && userSolution.Distinct().Count() == puzzleLength)
             {
-                // check if solution[i] is in userSolution, since it does not have to be in any specific order: like python's correct = True if x in array else False
-                bool correct = false;
-
-                for (int i = 0; i < puzzleLength; i++)
-                {
-                    correct = false;
-                    for (int j = 0; j < puzzleLength; j++) {
-                        if (solution[i] != userSolution[j]) { 
-                            correct = true;
-                            break;
-                        }
-                    }
-                    if (!correct) { break; }
-
-                }
-
+                bool correct = solution.ToHashSet().SetEquals(userSolution.ToHashSet());
                 if (correct)
                 {
                     //vcam.m_Priority = 10;
@@ -99,6 +88,13 @@ public class SymbolPuzzle : MonoBehaviour
                     PuzzleCam.enabled = false;
                     solved = true;
                     Debug.Log("Puzzle solved");
+                    if (solved) {
+                        MoveDown(gameObject);
+                        // MoveDown(puzzleObj);
+                        // MoveDown(middleWall);
+                        MoveDown(GameObject.Find("MIDDLE"));
+                        MoveDown(GameObject.Find("Puzzle"));
+                    }
                     // StartCoroutine(ObjActivate());
                     //StartCoroutine(DoorActivate());
                 }
@@ -110,6 +106,18 @@ public class SymbolPuzzle : MonoBehaviour
                 }
 
             }
+        }
+    }
+
+    void MoveDown(GameObject obj) {
+        if (obj != null) {
+            // Debug.Log("Move down");
+            obj.transform.position = new Vector3(obj.transform.position.x, obj.transform.position.y - Time.deltaTime * 2.0f, obj.transform.position.z);
+
+            // check if the puzzle is below or at specific spot
+            // if (GameObject.Find("Puzzle").transform.position.y <= -5.9f) {
+            //     solved = false;
+            // }
         }
     }
 

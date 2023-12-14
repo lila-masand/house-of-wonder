@@ -80,18 +80,14 @@ public class Maze : MonoBehaviour {
                     }
 
             success = BackTrackingSearch(grid, unassigned);
-            if (!success)
-            {
-                Debug.Log("Could not find valid solution - will try again");
+            if (!success) {
                 unassigned.Clear();
                 grid = new List<TileType>[width, length];
                 function_calls = 0; 
             }
         }
         puzzleScript.solution = puzzleScript.getPuzzle();
-        Debug.Log(npc_order[0]);
 
-        Debug.Log(puzzleScript.solution[0]);
         npc1 = npc_order[puzzleScript.solution[0]];
         npc2 = npc_order[puzzleScript.solution[1]];
         npc3 = npc_order[puzzleScript.solution[2]];
@@ -279,7 +275,7 @@ public class Maze : MonoBehaviour {
                     GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
                     cube.name = "WALL";
                     cube.transform.localScale = new Vector3(bounds.size[0] / (float)width, height, bounds.size[2] / (float)length);
-                    cube.transform.position = new Vector3(x + 0.5f, y + height / 2.0f, z + 0.5f);
+                    cube.transform.position = new Vector3(x + 0.5f, y + height * 0.5f, z + 0.5f);
                     cube.GetComponent<Renderer>().material = wallMaterial;
                     NavMeshObstacle navObstacle = cube.AddComponent<NavMeshObstacle>();
                     navObstacle.carving = true;
@@ -287,7 +283,7 @@ public class Maze : MonoBehaviour {
                     GameObject lowercube = GameObject.CreatePrimitive(PrimitiveType.Cube);
                     lowercube.name = "WALL";
                     lowercube.transform.localScale = new Vector3(bounds.size[0] / (float)width, height, bounds.size[2] / (float)length);
-                    lowercube.transform.position = new Vector3(x + 0.5f, y - height * 2.0f, z + 0.5f);
+                    lowercube.transform.position = new Vector3(x + 0.5f, y - height * 2.5f, z + 0.5f);
                     lowercube.GetComponent<Renderer>().material = wallMaterial;
                     NavMeshObstacle lowernavObstacle = lowercube.AddComponent<NavMeshObstacle>();
                     lowernavObstacle.carving = true;
@@ -303,26 +299,24 @@ public class Maze : MonoBehaviour {
                         // add additional layers to outer walls
                         cube.GetComponent<Renderer>().material = outerWallMaterial;
                         lowercube.GetComponent<Renderer>().material = outerWallMaterial;
-                        cube.transform.localScale = new Vector3(bounds.size[0] / (float)width, 4 * height, bounds.size[2] / (float)length);
-                        cube.transform.position = new Vector3(x + 0.5f, y - height, z + 0.5f);
 
-                        // GameObject cube2 = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                        // cube2.name = "WALL";
-                        // cube2.transform.localScale = new Vector3(bounds.size[0] / (float)width, height, bounds.size[2] / (float)length);
-                        // cube2.transform.position = new Vector3(x + 0.5f, y + height * 1.5f, z + 0.5f);
-                        // cube2.GetComponent<Renderer>().material = outerWallMaterial;
+                        GameObject cube2 = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                        cube2.name = "WALL";
+                        cube2.transform.localScale = new Vector3(bounds.size[0] / (float)width, height, bounds.size[2] / (float)length);
+                        cube2.transform.position = new Vector3(x + 0.5f, y + height * 1.5f, z + 0.5f);
+                        cube2.GetComponent<Renderer>().material = outerWallMaterial;
 
-                        // GameObject lowercube2 = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                        // lowercube2.name = "WALL";
-                        // lowercube2.transform.localScale = new Vector3(bounds.size[0] / (float)width, height, bounds.size[2] / (float)length);
-                        // lowercube2.transform.position = new Vector3(x + 0.5f, y - height * 1.5f, z + 0.5f);
-                        // lowercube2.GetComponent<Renderer>().material = outerWallMaterial;
+                        GameObject lowercube2 = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                        lowercube2.name = "WALL";
+                        lowercube2.transform.localScale = new Vector3(bounds.size[0] / (float)width, height, bounds.size[2] / (float)length);
+                        lowercube2.transform.position = new Vector3(x + 0.5f, y - height * 1.5f, z + 0.5f);
+                        lowercube2.GetComponent<Renderer>().material = outerWallMaterial;
 
-                        // GameObject lowercube3 = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                        // lowercube3.name = "WALL";
-                        // lowercube3.transform.localScale = new Vector3(bounds.size[0] / (float)width, height, bounds.size[2] / (float)length);
-                        // lowercube3.transform.position = new Vector3(x + 0.5f, y - height * 0.5f, z + 0.5f);
-                        // lowercube3.GetComponent<Renderer>().material = outerWallMaterial;
+                        GameObject lowercube3 = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                        lowercube3.name = "WALL";
+                        lowercube3.transform.localScale = new Vector3(bounds.size[0] / (float)width, height, bounds.size[2] / (float)length);
+                        lowercube3.transform.position = new Vector3(x + 0.5f, y - height * 0.5f, z + 0.5f);
+                        lowercube3.GetComponent<Renderer>().material = outerWallMaterial;
                     }
                 }
             }
