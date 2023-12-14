@@ -25,16 +25,8 @@ public class SymbolPuzzle : MonoBehaviour
     private Transform tileMM;
     //public CinemachineVirtualCamera vcam;
     public CinemachineStateDrivenCamera statecam;
-<<<<<<< HEAD
-=======
-    private GameObject middleWall;
-    private GameObject puzzleObj;
-
     // SFX - Owen Ludlam
     public AudioClip activate_obj_sfx;
-
-
->>>>>>> 61eac05c8ea8083c962178fbdfd7c43d7aeaf406
     //private CinemachineBrain cameraBrain;
 
     void Start()
