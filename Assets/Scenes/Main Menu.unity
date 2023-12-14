@@ -1941,6 +1941,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initial_track: {fileID: 8300000, guid: a9c8b0a3d841125088f4546c2133ff48, type: 3}
   global_volume: 1
+  success_sfx: {fileID: 8300000, guid: 7dd1e54c53926844a95001bc7e749c88, type: 3}
+  fail_sfx: {fileID: 8300000, guid: 2de2a1390168c9e43829a2e228846409, type: 3}
+  interact_sfx: {fileID: 8300000, guid: d85e14c0d9a7ad74dbc54efe609144f9, type: 3}
+  activate: {fileID: 8300000, guid: 2eeb4c41054a9ad4db5668125a55d77f, type: 3}
+  moon_track: {fileID: 8300000, guid: 75717093b95878bdc85a79245de83b2c, type: 3}
+  space_track: {fileID: 8300000, guid: a9c8b0a3d841125088f4546c2133ff48, type: 3}
+  poly_track: {fileID: 8300000, guid: b748f03ccda63442d94130bde0ce8958, type: 3}
+  spook_track: {fileID: 8300000, guid: b4016f2e4e5fe7fec88dda3088c17be7, type: 3}
 --- !u!1 &1262317801
 GameObject:
   m_ObjectHideFlags: 0

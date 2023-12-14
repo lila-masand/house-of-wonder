@@ -102016,9 +102016,6 @@ MonoBehaviour:
   anim: {fileID: 0}
   buttonPrompt: {fileID: 893249425}
   statecam: {fileID: 1833246481}
-  activate_puzzle_sfx: {fileID: 8300000, guid: 2eeb4c41054a9ad4db5668125a55d77f, type: 3}
-  win_sound_sfx: {fileID: 8300000, guid: 7dd1e54c53926844a95001bc7e749c88, type: 3}
-  lose_sound_sfx: {fileID: 8300000, guid: 2de2a1390168c9e43829a2e228846409, type: 3}
   activate_obj_sfx: {fileID: 8300000, guid: 82b8ebaa7af7fe64580a68be868fab58, type: 3}
 --- !u!4 &2070095572
 Transform:
@@ -102430,9 +102427,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b0b96d385545dd4a86033fd07029d2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 2076535783}
-  door_obj: {fileID: 2076535782}
-  door_scrape_sfx: {fileID: 8300000, guid: 82b8ebaa7af7fe64580a68be868fab58, type: 3}
 --- !u!1 &2081635004
 GameObject:
   m_ObjectHideFlags: 0

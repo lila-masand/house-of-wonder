@@ -7,6 +7,22 @@ using UnityEngine;
 // Owen Ludlam
 public class AudioManager : MonoBehaviour
 {
+public enum DefaultClips
+{
+    SUCCESS,
+    FAIL,
+    ACTIVATE,
+    INTERACT
+}
+
+public enum MusicTracks
+{
+    MOON,
+    SPACE,
+    POLY,
+    SPOOK
+}
+
     // Starting audio
     public AudioClip initial_track;
 
@@ -16,6 +32,21 @@ public class AudioManager : MonoBehaviour
     private bool current_track;
 
     public float global_volume = 1f;
+
+    // Default Audio Clips
+    public AudioClip success_sfx;
+    public AudioClip fail_sfx;
+    public AudioClip interact_sfx;
+    public AudioClip activate;
+
+    // Default Music Tracks
+    public AudioClip moon_track;
+    public AudioClip space_track;
+    public AudioClip poly_track;
+    public AudioClip spook_track;
+
+    private List<AudioClip> sfx_clips;
+    private List<AudioClip> music_tracks;
 
     // AudioManager instance for reference
     public static AudioManager instance;
@@ -39,6 +70,16 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
+        // Init default sfx
+        sfx_clips = new List<AudioClip>{
+            success_sfx, fail_sfx, activate, interact_sfx
+        };
+
+        // Init default tracks
+        music_tracks = new List<AudioClip>{
+            moon_track, space_track, poly_track, spook_track
+        };
+
         // Create audio sources to play clips from
         track_0 = gameObject.AddComponent<AudioSource>();
         track_1 = gameObject.AddComponent<AudioSource>();
@@ -52,23 +93,24 @@ public class AudioManager : MonoBehaviour
 
         // Play track_0 on start
         current_track = true;
-        track_0.clip = initial_track;
-        track_0.Play();
+        SwapTracks(MusicTracks.SPACE);
 
         // Create an empty audio-sources array
         sources = new List<AudioSource>();
     }
 
     // Swap between audio sources with a fade effect
-    public void SwapTracks(AudioClip clip, float fadeTime = 1f)
+    public void SwapTracks(MusicTracks clip, float fadeTime = 1f)
     {
         // Stop other coroutines to prevent sounds from getting entertwined
         StopAllCoroutines();
-        
+
+        AudioClip track = music_tracks[(int)clip];
+
         // Swap the current music track
         if (current_track)
         {
-            track_1.clip = clip;
+            track_1.clip = track;
             track_1.Play();
             current_track = false;
 
@@ -77,7 +119,7 @@ public class AudioManager : MonoBehaviour
         }
         else
         {
-            track_0.clip = clip;
+            track_0.clip = track;
             track_0.Play();
             current_track = true;
 
@@ -115,10 +157,30 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public void PlayEffect(GameObject game_object, DefaultClips clip)
+    {
+        float volume_multiplier;
+        switch (clip)
+        {
+            case DefaultClips.INTERACT:
+                volume_multiplier = 2.0f;
+                break;
+            case DefaultClips.ACTIVATE:
+                volume_multiplier = 0.7f;
+                break;
+            default:
+                volume_multiplier = 1f;
+                break;
+        }
+            
+
+        PlayEffect(game_object, sfx_clips[(int)clip], volume_multiplier);
+    }
+
     public void PlayEffect(GameObject game_object, AudioClip clip, float volume_multiplier = 1f)
     {
         // Check input validity
-        if(clip == null || gameObject == null)
+        if (clip == null || gameObject == null)
         {
             return;
         }
@@ -134,7 +196,7 @@ public class AudioManager : MonoBehaviour
     // Destroy new audiosource on sound end
     private IEnumerator PlayDestroy(AudioSource source)
     {
-        while(source.isPlaying)
+        while (source.isPlaying)
         {
             if (source != null)
             {

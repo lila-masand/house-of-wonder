@@ -12,12 +12,9 @@ public class PlatformTrigger : MonoBehaviour
     public TMP_Text ControlPopUp;
     public GameObject objToTrigger;
 
-    public AudioClip activate_sound;
-
     bool activated = false;
     bool inRange = false;
     private bool? vertical;
-    //public GameObject obj;
 
     void Start()
     {
@@ -57,7 +54,7 @@ public class PlatformTrigger : MonoBehaviour
             StartCoroutine(WatchTrigger());
 
             // Owen Ludlam
-            AudioManager.instance.PlayEffect(gameObject, activate_sound, 0.5f);
+            AudioManager.instance.PlayEffect(gameObject, AudioManager.DefaultClips.ACTIVATE);
 
             activated = true;
         }

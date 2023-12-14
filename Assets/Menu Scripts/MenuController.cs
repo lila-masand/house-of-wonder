@@ -40,7 +40,7 @@ public class MenuController : MonoBehaviour
             yield return null;
         }
 
-        AudioManager.instance.SwapTracks(level_1_track);
+        AudioManager.instance.SwapTracks(AudioManager.MusicTracks.POLY);
         PauseMenuController.instance.gameObject.SetActive(true); // Allow Pausing
         SceneManager.LoadScene(level_1_scene, LoadSceneMode.Single); // Load single to avoid glitch issues
     }

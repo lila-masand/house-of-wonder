@@ -34,9 +34,6 @@ public class FloorPuzzle : MonoBehaviour
     public CinemachineStateDrivenCamera statecam;
 
     // SFX - Owen Ludlam
-    public AudioClip activate_puzzle_sfx;
-    public AudioClip win_sound_sfx;
-    public AudioClip lose_sound_sfx;
     public AudioClip activate_obj_sfx;
 
     //private CinemachineBrain cameraBrain;
@@ -74,7 +71,7 @@ public class FloorPuzzle : MonoBehaviour
                 StartCoroutine(RunPuzzle());
 
                 // Owen Ludlam
-                AudioManager.instance.PlayEffect(gameObject, activate_puzzle_sfx, 0.7f);
+                AudioManager.instance.PlayEffect(gameObject, AudioManager.DefaultClips.ACTIVATE);
 
                 if (solCheckable.Count < 5)
                     solCheckable = AddSolution();                
@@ -100,7 +97,7 @@ public class FloorPuzzle : MonoBehaviour
                     userInputNum = 0;
 
                     // Owen Ludlam
-                    AudioManager.instance.PlayEffect(gameObject, lose_sound_sfx);
+                    AudioManager.instance.PlayEffect(gameObject, AudioManager.DefaultClips.FAIL);
 
                     correct = true;
                     solved = false;
@@ -127,7 +124,7 @@ public class FloorPuzzle : MonoBehaviour
                     puzzleSwitch.GetComponent<MeshRenderer>().material.color = new Color(1f, 255f, 1f, .5f);
 
                     // Owen Ludlam
-                    AudioManager.instance.PlayEffect(gameObject, win_sound_sfx);
+                    AudioManager.instance.PlayEffect(gameObject, AudioManager.DefaultClips.SUCCESS);
 
                     solved = true;
                     solutionInput = false;
