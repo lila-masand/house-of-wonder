@@ -74,7 +74,7 @@ public class FloorPuzzle : MonoBehaviour
                 StartCoroutine(RunPuzzle());
 
                 // Owen Ludlam
-                AudioManager.instance.PlayEffect(gameObject, activate_puzzle_sfx);
+                AudioManager.instance.PlayEffect(gameObject, activate_puzzle_sfx, 0.7f);
 
                 if (solCheckable.Count < 5)
                     solCheckable = AddSolution();                
