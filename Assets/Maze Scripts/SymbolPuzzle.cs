@@ -25,6 +25,16 @@ public class SymbolPuzzle : MonoBehaviour
     private Transform tileMM;
     //public CinemachineVirtualCamera vcam;
     public CinemachineStateDrivenCamera statecam;
+<<<<<<< HEAD
+=======
+    private GameObject middleWall;
+    private GameObject puzzleObj;
+
+    // SFX - Owen Ludlam
+    public AudioClip activate_obj_sfx;
+
+
+>>>>>>> 61eac05c8ea8083c962178fbdfd7c43d7aeaf406
     //private CinemachineBrain cameraBrain;
 
     void Start()
@@ -73,17 +83,26 @@ public class SymbolPuzzle : MonoBehaviour
                 bool correct = solution.ToHashSet().SetEquals(userSolution.ToHashSet());
                 if (correct)
                 {
+                    AudioManager.instance.PlayEffect(gameObject, AudioManager.DefaultClips.SUCCESS);
                     //vcam.m_Priority = 10;
                     // statecam.enabled = true; // not set
                     PuzzleCam.enabled = false;
                     solved = true;
                     Debug.Log("Puzzle solved");
+                    if (solved) {
+
+                        if (activate_obj_sfx != null)
+                        {
+                            AudioManager.instance.PlayEffect(gameObject, activate_obj_sfx);
+                        }
+                    }
                     StartCoroutine(ObjActivate());
                     //StartCoroutine(DoorActivate());
                 }
 
                 else
                 {
+                    AudioManager.instance.PlayEffect(gameObject, AudioManager.DefaultClips.FAIL);
                     userSolution.Clear();
                     StartCoroutine(FlashAll());
                 }

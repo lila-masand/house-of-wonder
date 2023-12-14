@@ -15,7 +15,6 @@ public class PlatformTrigger : MonoBehaviour
     bool activated = false;
     bool inRange = false;
     private bool? vertical;
-    //public GameObject obj;
 
     void Start()
     {
@@ -53,6 +52,10 @@ public class PlatformTrigger : MonoBehaviour
         if (inRange && Input.GetKey(KeyCode.Return) && !activated)
         {     
             StartCoroutine(WatchTrigger());
+
+            // Owen Ludlam
+            AudioManager.instance.PlayEffect(gameObject, AudioManager.DefaultClips.ACTIVATE);
+
             activated = true;
         }
     }

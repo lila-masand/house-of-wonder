@@ -4,11 +4,6 @@ using System.Threading;
 using UnityEngine;
 
 // Scripted by Owen Ludlam
-enum AnimStates
-{
-    Walk = 0, Run = 1, Idle = 2, Jump = 3, Loose = 4
-}
-
 public class PlayerMovement : MonoBehaviour
 {
     // Physics variables
@@ -16,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     public float jump_force = 6;
     public float sensitivity = 0.7f;
     public float gravity = -9.81f;
+    public AudioClip jump_sound;
 
     private Vector3 velocity;
     private Vector3 player_movement_input;
@@ -61,6 +57,7 @@ public class PlayerMovement : MonoBehaviour
             // Play the jumping animation and apply a vertical jump force
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                AudioManager.instance.PlayEffect(gameObject, jump_sound);
                 animator.SetTrigger("Jump");
                 velocity.y = jump_force;
 
