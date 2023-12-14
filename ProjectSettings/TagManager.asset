@@ -6,6 +6,15 @@ TagManager:
   tags:
   - Grounded
   - NPC
+  - bird
+  - claw
+  - crosshair
+  - dude
+  - fish
+  - hole
+  - pointy
+  - temple
+  - trefoil
   layers:
   - Default
   - TransparentFX

@@ -19,10 +19,10 @@ public class SymbolPuzzle : MonoBehaviour
     public bool solved;
     public TMP_Text ControlPopUp;
     public GameObject objToTrigger;
-    public int puzzleLength = 3;
+    public int puzzleLength = 4;
 
 
-    private int[] solution;
+    public List<int> solution;
     private Transform tileMM;
     //public CinemachineVirtualCamera vcam;
     public CinemachineStateDrivenCamera statecam;
@@ -32,7 +32,8 @@ public class SymbolPuzzle : MonoBehaviour
 
     void Start()
     {
-        solution = getPuzzle();
+        // solution = getPuzzle();
+        Debug.Log(solution);
         solutionInput = false;
         userSolution = new List<int>();
         solved = false;
@@ -54,7 +55,7 @@ public class SymbolPuzzle : MonoBehaviour
         if (!solved)
         {
             // bring up the control prompt when in range
-            if ((player.transform.position - tileMM.transform.position).magnitude < 1.5f && !PuzzleCam.enabled)
+            if ((player.transform.position - tileMM.transform.position).magnitude < 3.0f && !PuzzleCam.enabled)
             {
                 //MainCam.enabled = false;
                 //ControlPopUp.enabled = true;
@@ -66,7 +67,7 @@ public class SymbolPuzzle : MonoBehaviour
                     solutionInput = true;
                 }
             }
-            else if((player.transform.position - tileMM.transform.position).magnitude > 1.5f)
+            else if((player.transform.position - tileMM.transform.position).magnitude > 3.0f)
             {
                 //MainCam.enabled = true;
                 PuzzleCam.enabled = false;
@@ -75,31 +76,35 @@ public class SymbolPuzzle : MonoBehaviour
 
             if (solutionInput && PuzzleCam.enabled && userSolution.Count == puzzleLength)
             {
-                bool correct = true;
+                // check if solution[i] is in userSolution, since it does not have to be in any specific order: like python's correct = True if x in array else False
+                bool correct = false;
 
                 for (int i = 0; i < puzzleLength; i++)
                 {
-                    if (solution[i] != userSolution[i])
-                    {
-                        correct = false;
-                        break;
+                    correct = false;
+                    for (int j = 0; j < puzzleLength; j++) {
+                        if (solution[i] != userSolution[j]) { 
+                            correct = true;
+                            break;
+                        }
                     }
+                    if (!correct) { break; }
 
                 }
 
                 if (correct)
                 {
                     //vcam.m_Priority = 10;
-                    statecam.enabled = true;
+                    // statecam.enabled = true; // not set
                     PuzzleCam.enabled = false;
                     solved = true;
-                    StartCoroutine(ObjActivate());
+                    Debug.Log("Puzzle solved");
+                    // StartCoroutine(ObjActivate());
                     //StartCoroutine(DoorActivate());
                 }
 
                 else
                 {
-
                     userSolution.Clear();
                     StartCoroutine(FlashAll());
                 }
@@ -135,6 +140,7 @@ public class SymbolPuzzle : MonoBehaviour
 
     IEnumerator ObjActivate()
     {
+        yield break;
         //LoadZone.GetComponent<Animator>().SetBool("PuzzleSolved", true);
         //statecam.enabled = true;
         //MainCam.enabled = true;
@@ -167,8 +173,19 @@ public class SymbolPuzzle : MonoBehaviour
         //MainCam.targetDisplay = 2;
     }
 
+    private void Shuffle<T>(ref List<T> list)
+    {
+        int n = list.Count;
+        while (n > 1) {
+            n--;
+            int k = UnityEngine.Random.Range(0, n + 1);
+            T value = list[k];
+            list[k] = list[n];
+            list[n] = value;
+        }
+    }
 
-    private int[] getPuzzle()
+    public List<int> getPuzzle()
     {
         //System.Random picker = new System.Random();
 
@@ -176,15 +193,18 @@ public class SymbolPuzzle : MonoBehaviour
         //return new int[] { picker.Next(9), picker.Next(9), picker.Next(9)};
         if (puzzleLength == 3)
         {
-            return new int[] { 3, 4, 8 };
+            return new List<int> { 3, 4, 8 };
         }
 
         else if(puzzleLength == 4)
         {
-            return new int[] { 1, 2, 5, 7 };
+            List<int> possibilities = new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
+            Shuffle<int>(ref possibilities);
+
+            return new List<int> { possibilities[0], possibilities[1], possibilities[2], possibilities[3]};
         }
 
-        return new int[] { 0 };
+        return new List<int> { 0 };
 
     }
 }
