@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 // Scripted by Owen Ludlam
@@ -63,9 +64,9 @@ public class PlayerMovement : MonoBehaviour
                 animator.SetTrigger("Jump");
                 velocity.y = jump_force;
 
-                // Also move in direction you're facing (LM)
-                //velocity.z = (jump_force/3)*move_vector.z;
-                //velocity.x = (jump_force/3)*move_vector.x;
+                // A little more horizontal movement (LM)
+                velocity.z = (jump_force/3)*move_vector.z;
+                velocity.x = (jump_force/3)*move_vector.x;
             }
         }
         else
@@ -73,8 +74,8 @@ public class PlayerMovement : MonoBehaviour
             // Apply generic gravity and play landing animation if applicable
             animator.SetTrigger("Land");
             velocity.y -= gravity * -2f * Time.deltaTime;
+            velocity = Vector3.MoveTowards(velocity, new Vector3(0f, velocity.y, 0f), jump_force/3 * (Time.deltaTime));
         }
-
 
         // Combine movement vectors to reduce calls to the move script and fix the no-mid-air movement bug
         Vector3 combined_move_vector = (move_vector * speed + velocity) * Time.deltaTime;
