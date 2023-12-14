@@ -74,7 +74,7 @@ public class PlayerMovement : MonoBehaviour
             // Apply generic gravity and play landing animation if applicable
             animator.SetTrigger("Land");
             velocity.y -= gravity * -2f * Time.deltaTime;
-            velocity = Vector3.MoveTowards(velocity, new Vector3(0f, velocity.y, 0f), jump_force/3 * (Time.deltaTime));
+            velocity = Vector3.MoveTowards(velocity, new Vector3(0f, velocity.y, 0f), jump_force/2 * (Time.deltaTime));
         }
 
         // Combine movement vectors to reduce calls to the move script and fix the no-mid-air movement bug
