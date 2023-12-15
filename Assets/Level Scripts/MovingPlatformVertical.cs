@@ -3,19 +3,18 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
+// Script by Lila Masand
 public class MovingPlatformVertical : MonoBehaviour
 {
-    //could maybe say that if target isn't null, raycast to target instead
+    // Should really just make "vertical" an option on the original MovingPlatform script
     public GameObject target;
     public float velocity = 5f;
     public bool PlayerOn;
     public bool activated;
-    //for debugging
-    //public float raytarget;
+    public RaycastHit hit;
 
     private bool away = true;
     private Vector3 origin;
-    public RaycastHit hit;
     
     // Start is called before the first frame update
     void Start()
@@ -49,7 +48,6 @@ public class MovingPlatformVertical : MonoBehaviour
             }
 
             float step = velocity * Time.deltaTime;
-
             transform.position = Vector3.MoveTowards(transform.position, hit.point, step);
         }
 
@@ -69,20 +67,6 @@ public class MovingPlatformVertical : MonoBehaviour
                 transform.position = Vector3.MoveTowards(transform.position, hit.point, step);
 
             }
-            PlayerOn = true;
         }
-
-    }
-
-    void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag == "Player")
-        {
-            // need overall level script that has a variable tracking Thyra's last position?
-
-            PlayerOn = false;
-
-        }
-
     }
 }

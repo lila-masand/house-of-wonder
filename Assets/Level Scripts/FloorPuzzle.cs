@@ -4,12 +4,12 @@ using UnityEngine;
 using TMPro;
 using System.Diagnostics;
 using Cinemachine;
-// Script by Lila Masand
-//  Last updated 2023
 
+// Script by Lila Masand
 public class FloorPuzzle : MonoBehaviour
 {
     public Camera PuzzleCam;
+    public CinemachineStateDrivenCamera statecam;
     public Camera MainCam;
     public Camera PlayerCam;
     public GameObject player;
@@ -28,15 +28,12 @@ public class FloorPuzzle : MonoBehaviour
     public Animation anim;
     public TMP_Text buttonPrompt;
 
-    // one list for each column
+    // One list for each column of floor puzzle
     private List<int>[] solution;
     private Transform tile00;
-    public CinemachineStateDrivenCamera statecam;
 
     // SFX - Owen Ludlam
     public AudioClip activate_obj_sfx;
-
-    //private CinemachineBrain cameraBrain;
 
     void Start()
     {
@@ -63,6 +60,7 @@ public class FloorPuzzle : MonoBehaviour
     {
         if (!solved)
         {
+            // Bring up control prompt when in range of the puzzle switch and puzzle isn't in progress
             if (!isPlaying && !solutionInput && (player.transform.position - puzzleSwitch.transform.position).magnitude < 3f && Input.GetKey(KeyCode.Return))
             {
                 puzzleSwitch.GetComponent<MeshRenderer>().material.color = new Color(255f, 1f, 1f, .5f);
@@ -84,7 +82,6 @@ public class FloorPuzzle : MonoBehaviour
 
             if (solutionInput)
             {
-                //UnityEngine.Debug.Log(solCheckable.Count);
                 if (!correct)
                 {
                     StartCoroutine(FlashAll());
@@ -105,9 +102,6 @@ public class FloorPuzzle : MonoBehaviour
 
                 else if((userSolution.Count == solCheckable.Count) && correct)
                 {
-                    //UnityEngine.Debug.Log(solCheckable.Count);
-                    //UnityEngine.Debug.Log(userSolution.Count);
-
                     for (int i = 0; i < 6; i++)
                     {
                         Transform currColumn = transform.GetChild(i);
@@ -141,10 +135,9 @@ public class FloorPuzzle : MonoBehaviour
         PlayerCam.enabled = false;
         isPlaying = true;
 
-        // turn on tiles one at a time
+        // Turn on tiles one at a time
         for (int i = 0; i < 6; i++)
         {
-            //could also make an array of the GameObjects called grid
             Transform currColumn = transform.GetChild(i);
 
             for (int j = 0; j < solution[i].Count; j++) {
@@ -157,7 +150,7 @@ public class FloorPuzzle : MonoBehaviour
 
         yield return new WaitForSeconds(2f);
 
-        // turn them all off at once
+        // Turn them all off at once
         for (int i = 0; i < 6; i++)
         {
             Transform currColumn = transform.GetChild(i);
@@ -188,13 +181,12 @@ public class FloorPuzzle : MonoBehaviour
                 sol.Add(i + "" + solution[i][j]);
             }
         }
-
         return sol;
     }
 
+    // Flash all tiles when the solution is wrong
     IEnumerator FlashAll()
     {
-
         for (int i = 0; i < 6; i++)
         {
             Transform currColumn = transform.GetChild(i);
@@ -218,6 +210,7 @@ public class FloorPuzzle : MonoBehaviour
         }
     }
 
+    // Any object with the Animator parameter "activated" can be triggered by solving the puzzle
     IEnumerator ObjActivate()
     {
         PuzzleCam.enabled = false;
@@ -248,20 +241,20 @@ public class FloorPuzzle : MonoBehaviour
         newSolution[0].Add(currRow);
         int tileCount = 1;
 
-        // 0 = up, 1 = right
+        // Iterate over columns of the puzzle and pick which tile is next in rhe solution
         for (int i = 0; i < 5; i++)
         {
             int nextTile = -1;
             bool done = false;
             while (!done && tileCount <= 9)
             {
-
+                // 0 = up, 1 = right
                 if (tileCount > 1 && newSolution[i].Count < 3 && currRow < 4)
                 {
                     nextTile = picker.Next(2);
                 }
-                // if there have already been 3 tiles chosen in this column, automatically go right
-                // same if we reached the top of the puzzle
+                // If there have already been 3 tiles chosen in this column, automatically go right
+                // Same if we reached the top of the puzzle
                 else
                 {
                     nextTile = 1;
@@ -270,13 +263,14 @@ public class FloorPuzzle : MonoBehaviour
 
                 switch (nextTile)
                 {
+                    // Going up - move to next row
                     case 0:
                         {
                             currRow++;
                             newSolution[i].Add(currRow);                        
                             break;
                         }
-
+                    // Going right - move to next column
                     case 1:
                         {
                             newSolution[i + 1].Add(currRow);
@@ -284,6 +278,7 @@ public class FloorPuzzle : MonoBehaviour
                             break;
                         }
                 }
+
                 tileCount++;
             }
 

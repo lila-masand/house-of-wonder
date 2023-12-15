@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
-
+// Script by Lila Masand
 public class MovingPlatform : MonoBehaviour
 {
-    //could maybe say that if target isn't null, raycast to target instead
+    // Could maybe say that if target isn't null, raycast to target instead
+    // Having two targets set would be less expensive as well
     public GameObject target;
     public float velocity = 5f;
     public bool activated;
@@ -21,10 +22,10 @@ public class MovingPlatform : MonoBehaviour
     {
         origin = transform.position;
 
-        // moves horizontally on the z-axis
+        // Moves horizontally on the z-axis
         if(!moveOnX)
             Physics.Raycast(origin, new Vector3(0f, 0f, -1f), out hit, Mathf.Infinity);
-        // moves horizontally on the x-axis
+        // Moves horizontally on the x-axis
         else if(moveOnX)
             Physics.Raycast(origin, new Vector3(-1f, 0f, 0f), out hit, Mathf.Infinity);
 
@@ -38,7 +39,7 @@ public class MovingPlatform : MonoBehaviour
         {
             if (!moveOnX)
             {
-                // when the platform gets close enough to its Raycast target, switch direction
+                // When the platform gets close enough to its Raycast target, switch direction
                 if (away && transform.position.z < hit.point.z + 2)
                 {
                     Physics.Raycast(transform.position, new Vector3(0f, 0f, 1f), out hit, Mathf.Infinity);
@@ -77,22 +78,4 @@ public class MovingPlatform : MonoBehaviour
     }
 
 
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "Player")
-        {
-            PlayerOn = true;
-        }
-
-    }
-
-    void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag == "Player")
-        {
-            PlayerOn = false;
-
-        }
-
-    }
 }
