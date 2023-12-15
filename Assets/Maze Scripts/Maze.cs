@@ -87,7 +87,6 @@ public class Maze : MonoBehaviour {
             }
         }
         puzzleScript.puzzleLength = 4;
-        puzzleScript.solution = puzzleScript.getPuzzle();
 
         npc1 = npc_order[puzzleScript.solution[0]];
         npc2 = npc_order[puzzleScript.solution[1]];
