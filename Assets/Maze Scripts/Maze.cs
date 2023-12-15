@@ -100,7 +100,6 @@ public class Maze : MonoBehaviour {
         if (puzzleScript.puzzleLength == 4) { npc4.SetActive(true); }
 
         DrawMaze(grid);
-        // NavMesh.BuildNavMesh();
     }
 
 
