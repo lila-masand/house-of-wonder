@@ -100,7 +100,7 @@ public enum MusicTracks
     }
 
     // Swap between audio sources with a fade effect
-    public void SwapTracks(MusicTracks clip, float fadeTime = 1f)
+    public void SwapTracks(MusicTracks clip, float fadeTime = 1.5f)
     {
         // Stop other coroutines to prevent sounds from getting entertwined
         StopAllCoroutines();

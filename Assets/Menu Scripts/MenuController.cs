@@ -26,7 +26,16 @@ public class MenuController : MonoBehaviour
         instruction_button.onClick.AddListener(ShowInstructions);
         exit_button.onClick.AddListener(HideInstructions);
         instruction_canvas.gameObject.SetActive(false);
+
+        instruction_button.onClick.AddListener(PlayClickSound);
+        exit_button.onClick.AddListener(PlayClickSound);
+
         volume_slider.onValueChanged.AddListener(delegate { AudioManager.instance.SetVolume(volume_slider.value); });
+    }
+
+    void PlayClickSound()
+    {
+        AudioManager.instance.PlayEffect(gameObject, click_sound);
     }
 
     void StartGame()
