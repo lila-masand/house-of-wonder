@@ -12,22 +12,38 @@ public class MenuController : MonoBehaviour
 
     // Start Game button reference
     public Button start_button;
+    public Button instruction_button;
+    public Button exit_button;
+    public Canvas main_canvas;
+    public Canvas instruction_canvas;
     public Slider volume_slider;
     public string level_1_scene;
-
-    // String name of the starting level
-    // public string ;
 
     void Start()
     {
         menu_source.clip = click_sound;
         start_button.onClick.AddListener(StartGame);
+        instruction_button.onClick.AddListener(ShowInstructions);
+        exit_button.onClick.AddListener(HideInstructions);
+        instruction_canvas.gameObject.SetActive(false);
         volume_slider.onValueChanged.AddListener(delegate { AudioManager.instance.SetVolume(volume_slider.value); });
     }
 
     void StartGame()
     {
         StartCoroutine(FinishClick());
+    }
+
+    void ShowInstructions()
+    {
+        main_canvas.gameObject.SetActive(false);
+        instruction_canvas.gameObject.SetActive(true);
+    }
+
+    void HideInstructions()
+    {
+        main_canvas.gameObject.SetActive(true);
+        instruction_canvas.gameObject.SetActive(false);
     }
 
     private IEnumerator FinishClick()
