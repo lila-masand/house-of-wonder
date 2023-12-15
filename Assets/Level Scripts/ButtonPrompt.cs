@@ -12,7 +12,7 @@ public class ButtonPrompt : MonoBehaviour
 
     void Start()
     {
-        
+        buttonPrompt.enabled = false;
     }
 
     // Update is called once per frame
