@@ -14,7 +14,6 @@ public class SymbolPuzzle : MonoBehaviour
     public Camera MainCam;
     public Camera PlayerCam;
     public GameObject player;
-    //public GameObject LoadZone;
     public List<int> userSolution;
     public bool solutionInput;
     public bool solved;
@@ -22,23 +21,23 @@ public class SymbolPuzzle : MonoBehaviour
     public GameObject objToTrigger;
     public int puzzleLength = 4;
     public List<int> solution;
-    private Transform tileMM;
-    //public CinemachineVirtualCamera vcam;
     public CinemachineStateDrivenCamera statecam;
     // SFX - Owen Ludlam
     public AudioClip activate_obj_sfx;
     public bool multiCam = false;
-    //private CinemachineBrain cameraBrain;
+
+    private Transform tileMM;
+
+    void Awake()
+    {
+        solution = getPuzzle();
+    }
 
     void Start()
     {
-        solution = getPuzzle();
         solutionInput = false;
         userSolution = new List<int>();
         solved = false;
-        //MainCam.enabled = true;
-        //ControlPopUp.enabled = false;
-        //cameraBrain = MainCam.GetComponent<CinemachineBrain>();
         ControlPopUp.enabled = false;
 
         tileMM = transform.GetChild(4);
@@ -47,8 +46,6 @@ public class SymbolPuzzle : MonoBehaviour
             statecam.enabled = false;
         }
         MainCam.enabled = false;
-
-
     }
 
     // Update is called once per frame
