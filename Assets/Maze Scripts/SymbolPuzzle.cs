@@ -11,7 +11,7 @@ public class SymbolPuzzle : MonoBehaviour
 {
 
     public Camera PuzzleCam;
-    //public Camera MainCam;
+    public Camera MainCam;
     public Camera PlayerCam;
     public GameObject player;
     //public GameObject LoadZone;
@@ -27,6 +27,7 @@ public class SymbolPuzzle : MonoBehaviour
     public CinemachineStateDrivenCamera statecam;
     // SFX - Owen Ludlam
     public AudioClip activate_obj_sfx;
+    public bool multiCam = false;
     //private CinemachineBrain cameraBrain;
 
     void Start()
@@ -41,8 +42,13 @@ public class SymbolPuzzle : MonoBehaviour
         ControlPopUp.enabled = false;
 
         tileMM = transform.GetChild(4);
-        if(statecam != null)
+        if (statecam != null)
+        {
             statecam.enabled = false;
+        }
+        MainCam.enabled = false;
+
+
     }
 
     // Update is called once per frame
@@ -78,6 +84,8 @@ public class SymbolPuzzle : MonoBehaviour
                     AudioManager.instance.PlayEffect(gameObject, AudioManager.DefaultClips.SUCCESS);
                     //vcam.m_Priority = 10;
                     statecam.enabled = true; // not set
+                    MainCam.enabled = true;
+
                     PuzzleCam.enabled = false;
                     solved = true;
                     Debug.Log("Puzzle solved");
@@ -149,6 +157,8 @@ public class SymbolPuzzle : MonoBehaviour
         //vcam.m_Priority = 9;
         //statecam.m_Priority = 9;
         statecam.enabled = false;
+        MainCam.enabled = false;
+
 
     }
 

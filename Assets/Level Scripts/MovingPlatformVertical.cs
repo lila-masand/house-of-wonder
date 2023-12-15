@@ -60,8 +60,15 @@ public class MovingPlatformVertical : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            // need overall level script that has a variable tracking Thyra's last position?
+            if (away && transform.position.y >= other.transform.gameObject.transform.position.y)
+            {
+                Physics.Raycast(transform.position, new Vector3(0f, 1f, 0f), out hit, Mathf.Infinity);
+                away = true;
+                float step = velocity * Time.deltaTime;
 
+                transform.position = Vector3.MoveTowards(transform.position, hit.point, step);
+
+            }
             PlayerOn = true;
         }
 

@@ -20,7 +20,9 @@ public class ChangeCheckpoint : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            respawnScript.respawn_point = check;
+            if(GetComponent<Collider>().bounds.max.y <= other.bounds.min.y + 0.1f)
+                respawnScript.respawn_point = check;
+
         }
 
     }

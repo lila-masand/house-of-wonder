@@ -28,11 +28,15 @@ public class MoveWithPlatform : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            PlayerOn = true;
+            if (transform.position.y < other.transform.gameObject.transform.position.y)
+            {
+                PlayerOn = true;
+
+                player.transform.parent = this.transform;
+            }
 
             player.GetComponent<Rigidbody>().isKinematic = true;
 
-            player.transform.parent = this.transform; 
         }
 
     }

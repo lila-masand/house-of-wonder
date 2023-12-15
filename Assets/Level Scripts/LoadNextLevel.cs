@@ -13,5 +13,10 @@ public class LoadNextLevel : MonoBehaviour
         //SceneManager.SetActiveScene(SceneManager.GetSceneByName("Maze Level"));     
     }
 
+    IEnumerator SetActive()
+    {
+        yield return new WaitForSeconds(0.1f);
 
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName("Maze Level"));
+    }
 }

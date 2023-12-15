@@ -2194,7 +2194,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &270692226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2223,6 +2223,10 @@ MonoBehaviour:
   m_Instructions:
   - m_FullHash: -2055197535
     m_VirtualCamera: {fileID: 218120831}
+    m_ActivateAfter: 0
+    m_MinDuration: 0
+  - m_FullHash: 1432961145
+    m_VirtualCamera: {fileID: 0}
     m_ActivateAfter: 0
     m_MinDuration: 0
   m_DefaultBlend:
@@ -4274,7 +4278,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &393482786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9030,6 +9034,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PuzzleCam: {fileID: 755720612}
+  MainCam: {fileID: 393482788}
   PlayerCam: {fileID: 349183498}
   player: {fileID: 597742824}
   userSolution: 
@@ -9040,7 +9045,8 @@ MonoBehaviour:
   puzzleLength: 4
   solution: 
   statecam: {fileID: 270692226}
-  activate_obj_sfx: {fileID: 8300000, guid: 2de2a1390168c9e43829a2e228846409, type: 3}
+  activate_obj_sfx: {fileID: 0}
+  multiCam: 0
 --- !u!4 &1326867648
 Transform:
   m_ObjectHideFlags: 0
@@ -11378,5 +11384,5 @@ SceneRoots:
   - {fileID: 1493959872}
   - {fileID: 1690823080}
   - {fileID: 511969587}
-  - {fileID: 270692227}
   - {fileID: 393482789}
+  - {fileID: 270692227}

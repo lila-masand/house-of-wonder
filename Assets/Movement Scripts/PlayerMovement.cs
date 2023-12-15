@@ -54,6 +54,14 @@ public class PlayerMovement : MonoBehaviour
             // Treat the character as grounded
             velocity.y = -1f;
 
+            // Making sure that the player doesn't slide too much (LM)
+            if (move_vector.x == 0 && move_vector.z == 0)
+            {
+                velocity.x = 0f;
+                velocity.z = 0f;
+            }
+
+
             // Play the jumping animation and apply a vertical jump force
             if (Input.GetKeyDown(KeyCode.Space))
             {
@@ -71,7 +79,7 @@ public class PlayerMovement : MonoBehaviour
             // Apply generic gravity and play landing animation if applicable
             animator.SetTrigger("Land");
             velocity.y -= gravity * -2f * Time.deltaTime;
-            velocity = Vector3.MoveTowards(velocity, new Vector3(0f, velocity.y, 0f), jump_force/2 * (Time.deltaTime));
+            velocity = Vector3.MoveTowards(velocity, new Vector3(0f, velocity.y, 0f), jump_force* 0.4f * (Time.deltaTime));
         }
 
         // Combine movement vectors to reduce calls to the move script and fix the no-mid-air movement bug
