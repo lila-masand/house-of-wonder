@@ -450,12 +450,10 @@ public class Maze : MonoBehaviour {
         if (collected == 4) {
             Debug.Log("GAME OVER");
             gameOverScreen.SetActive(true);
-            Time.timeScale = 0f;
         }
     }
 
     void Restart() {
-        Time.timeScale = 1f;
         SceneManager.LoadScene(0);
     }
 }

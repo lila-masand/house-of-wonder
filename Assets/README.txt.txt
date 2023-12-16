@@ -21,6 +21,8 @@ Plane.cs:
 all lines by Austin
 Skeleton.cs:
 all lines by Austin
+SymbolInteract.cs:
+all lines by Austin
 SymbolPuzzle.cs:
 lines 27, 84, 105 by Owen
 lines 80, 147-157, 173-176 by Austin

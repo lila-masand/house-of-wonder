@@ -20,14 +20,14 @@ public class PauseMenuController : MonoBehaviour
         if(instance == null)
         {
             instance = this;
+            // Persist the pause menu between scenes
+            DontDestroyOnLoad(gameObject);
+
         }
         else
         {
             Destroy(this);
         }
-
-        // Persist the pause menu between scenes
-        DontDestroyOnLoad(gameObject);
 
         // Do not pause until start is clicked
         gameObject.SetActive(false);
@@ -71,5 +71,6 @@ public class PauseMenuController : MonoBehaviour
                 UnPause();
             }
         }
+
     }
 }

@@ -3419,17 +3419,19 @@ MonoBehaviour:
 
     SPACE ~ Jump
 
+    ESC      
+    ~ Pause
+
 
     Instructions:
 
-    Try
-    to get to the gate at the end of each level.
+    Try to get to the gate at the end of each level.
 
 
-    Jump from platform to platform
-    to make progress in each level. Get near pedestals and button panels and press
-    enter to activate platforms and puzzles. Activate the correct tiles in the puzzles
-    by stepping on them or clicking them to proceed!'
+    Jump
+    from platform to platform to make progress in each level. Get near pedestals
+    and button panels and press enter to activate platforms and puzzles. Activate
+    the correct tiles in the puzzles by stepping on them or clicking them to proceed!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
