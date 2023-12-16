@@ -93382,6 +93382,8 @@ MonoBehaviour:
   platformcam: {fileID: 1684062144}
   ControlPopUp: {fileID: 893249425}
   objToTrigger: {fileID: 594565718}
+  activated: 0
+  inRange: 0
 --- !u!1001 &1579925592
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -102152,6 +102154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PuzzleCam: {fileID: 1384022422}
+  statecam: {fileID: 1833246481}
   MainCam: {fileID: 2142262131}
   PlayerCam: {fileID: 946368707}
   player: {fileID: 1330145266}
@@ -102167,7 +102170,6 @@ MonoBehaviour:
   isPlaying: 0
   anim: {fileID: 0}
   buttonPrompt: {fileID: 893249425}
-  statecam: {fileID: 1833246481}
   activate_obj_sfx: {fileID: 8300000, guid: 82b8ebaa7af7fe64580a68be868fab58, type: 3}
 --- !u!4 &2070095572
 Transform:
