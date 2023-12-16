@@ -22,7 +22,7 @@ public class ActivateSymbol : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!activated && (player.transform.position - transform.position).magnitude < 1f)
+        if (!activated && (player.transform.position - transform.position).magnitude < 2f)
         {
             if (Input.GetKey(KeyCode.Return))
             {
