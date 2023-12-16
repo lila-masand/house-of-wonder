@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.AI;
-
+using UnityEngine.SceneManagement;
+//Austin Copley
 enum TileType
 {
     WALL = 0,
@@ -39,6 +40,8 @@ public class Maze : MonoBehaviour {
     private GameObject npc1, npc2, npc3, npc4;
     private GameObject sym1, sym2, sym3, sym4;
     public int collected = 0;
+    public Button restartBtn;
+    public GameObject gameOverScreen;
 
     private void Shuffle<T>(ref List<T> list)
     {
@@ -53,6 +56,7 @@ public class Maze : MonoBehaviour {
     }
 
     void Start() {
+        restartBtn.onClick.AddListener(Restart);
         puzzleScript = puzzle.GetComponent<SymbolPuzzle>();
 
         List<GameObject> npc_order = new List<GameObject> { pointy, hole, dude, fish, claw, bird, crosshair, temple, trefoil }; 
@@ -445,7 +449,13 @@ public class Maze : MonoBehaviour {
         }
         if (collected == 4) {
             Debug.Log("GAME OVER");
+            gameOverScreen.SetActive(true);
+            Time.timeScale = 0f;
         }
+    }
+
+    void Restart() {
+        SceneManager.LoadScene(0);
     }
 }
 

@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//Austin Copley
 public class SymbolInteract : MonoBehaviour
 {
     public Maze maze;
