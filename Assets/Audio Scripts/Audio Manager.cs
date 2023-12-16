@@ -196,15 +196,15 @@ public enum MusicTracks
     // Destroy new audiosource on sound end
     private IEnumerator PlayDestroy(AudioSource source)
     {
-        while (source.isPlaying)
+        while (source != null && source.isPlaying)
         {
-            if (source != null)
-            {
-                yield return null;
-            }
+            yield return null;
         }
 
         sources.Remove(source);
-        Destroy(source);
+        if(source != null)
+        {
+            Destroy(source);
+        }
     }
 }
