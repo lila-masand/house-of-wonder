@@ -4,6 +4,7 @@ using System.Threading;
 using UnityEngine;
 using TMPro;
 
+// Script by Lila Masand
 public class PlatformTrigger : MonoBehaviour
 {
     public Animation anim;
@@ -11,9 +12,9 @@ public class PlatformTrigger : MonoBehaviour
     public Camera platformcam;
     public TMP_Text ControlPopUp;
     public GameObject objToTrigger;
+    public bool activated = false;
+    public bool inRange = false;
 
-    bool activated = false;
-    bool inRange = false;
     private bool? vertical;
 
     void Start()
@@ -22,6 +23,8 @@ public class PlatformTrigger : MonoBehaviour
         ControlPopUp.enabled = false;
         vertical = null;
 
+        // Could simplify this if I combined the two scripts - wouldn't have to check
+        // if the platform was vertical or horizontal
         if(objToTrigger != null)
         {
             if (objToTrigger.GetComponent<MovingPlatform>() != null)
@@ -75,14 +78,7 @@ public class PlatformTrigger : MonoBehaviour
         ControlPopUp.enabled = false;
     }
 
-    //void OnCollisionEnter(Collision other)
-    //{
-    //    if (other.gameObject.tag == "Player")
-    //    {
-    //        StartCoroutine(WatchTrigger());         
-    //    }
-    //}
-
+    // Switch the camera when the trigger occurs
     IEnumerator WatchTrigger()
     {
         ControlPopUp.enabled = false;

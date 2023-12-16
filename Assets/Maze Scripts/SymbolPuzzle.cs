@@ -7,6 +7,7 @@ using TMPro;
 using System.Security.Cryptography;
 using System.Linq;
 
+// Script by Lila Masand
 public class SymbolPuzzle : MonoBehaviour
 {
 
@@ -30,6 +31,7 @@ public class SymbolPuzzle : MonoBehaviour
 
     void Awake()
     {
+        // Get solution early so other scripts can access it
         solution = getPuzzle();
     }
 
@@ -40,11 +42,15 @@ public class SymbolPuzzle : MonoBehaviour
         solved = false;
         ControlPopUp.enabled = false;
 
+        // Get middle tile to use as a reference for distance from the puzzle
         tileMM = transform.GetChild(4);
+
+        // Check if there's a state-driven Cinemachine camera
         if (statecam != null)
         {
             statecam.enabled = false;
         }
+
         MainCam.enabled = false;
     }
 
@@ -53,12 +59,9 @@ public class SymbolPuzzle : MonoBehaviour
     {
         if (!solved)
         {
-            // bring up the control prompt when in range
+            // Allow player to start puzzle when in range
             if ((player.transform.position - tileMM.transform.position).magnitude < 1.5f && !PuzzleCam.enabled)
             {
-                //MainCam.enabled = false;
-                //ControlPopUp.enabled = true;
-
                 if (Input.GetKey(KeyCode.Return))
                 {
                     PuzzleCam.enabled = true;
@@ -66,21 +69,21 @@ public class SymbolPuzzle : MonoBehaviour
                     solutionInput = true;
                 }
             }
+            // Break out of puzzle camera when the player moves away
             else if((player.transform.position - tileMM.transform.position).magnitude > 1.5f)
             {
-                //MainCam.enabled = true;
                 PuzzleCam.enabled = false;
-                //ControlPopUp.enabled = false;
             }
-            
+            // Check whether the user is done putting in their solution
             if (solutionInput && PuzzleCam.enabled && userSolution.Distinct().Count() == puzzleLength)
             {
-                bool correct = solution.ToHashSet().SetEquals(userSolution.ToHashSet());
+                bool correct = solution.ToHashSet().SetEquals(userSolution.ToHashSet()); // (A)
+                
                 if (correct)
                 {
-                    AudioManager.instance.PlayEffect(gameObject, AudioManager.DefaultClips.SUCCESS);
-                    //vcam.m_Priority = 10;
-                    statecam.enabled = true; // not set
+                    AudioManager.instance.PlayEffect(gameObject, AudioManager.DefaultClips.SUCCESS); // Owen
+                    
+                    statecam.enabled = true;
                     MainCam.enabled = true;
 
                     PuzzleCam.enabled = false;
@@ -94,12 +97,12 @@ public class SymbolPuzzle : MonoBehaviour
                         }
                     }
                     StartCoroutine(ObjActivate());
-                    //StartCoroutine(DoorActivate());
                 }
 
                 else
                 {
-                    AudioManager.instance.PlayEffect(gameObject, AudioManager.DefaultClips.FAIL);
+                    // If the puzzle is failed, flash all tiles and reset
+                    AudioManager.instance.PlayEffect(gameObject, AudioManager.DefaultClips.FAIL); // Owen
                     userSolution.Clear();
                     StartCoroutine(FlashAll());
                 }
@@ -113,10 +116,6 @@ public class SymbolPuzzle : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
 
-        
-
-        //GetComponent<Animator>().SetTrigger("Wrong");
-
         for (int i = 0; i < 9; i++)
         {
             transform.GetChild(i).GetComponent<Animator>().SetBool("Flash", true);
@@ -128,49 +127,23 @@ public class SymbolPuzzle : MonoBehaviour
         {
             transform.GetChild(i).GetComponent<Animator>().SetBool("Flash", false);
         }
-
-
-
     }
 
-
+    // Any object with an Animator and a parameter "activated" can be triggered by solving the puzzle
     IEnumerator ObjActivate()
     {
-        //yield break;
-        //LoadZone.GetComponent<Animator>().SetBool("PuzzleSolved", true);
-        //statecam.enabled = true;
-        //MainCam.enabled = true;
-
         PuzzleCam.enabled = false;
         PlayerCam.enabled = false;
-        //MainCam.enabled = true;
         yield return new WaitForSeconds(0.5f);
         objToTrigger.GetComponent<Animator>().SetBool("activated", true);
         yield return new WaitForSeconds(3f);
         PlayerCam.enabled = true;
-        //MainCam.enabled = false;
         ControlPopUp.enabled = false;
-        //MainCam.targetDisplay = 2;
-        //vcam.m_Priority = 9;
-        //statecam.m_Priority = 9;
         statecam.enabled = false;
         MainCam.enabled = false;
-
-
     }
 
-    IEnumerator DoorActivate()
-    {
-        ControlPopUp.enabled = false;
-
-        //LoadZone.GetComponent<Animator>().SetBool("PuzzleSolved", true);
-        PlayerCam.enabled = false;
-        yield return new WaitForSeconds(2f);
-        PlayerCam.enabled = true;
-        //MainCam.enabled = false;
-        //MainCam.targetDisplay = 2;
-    }
-
+    // (A)
     private void Shuffle<T>(ref List<T> list)
     {
         int n = list.Count;
@@ -189,6 +162,7 @@ public class SymbolPuzzle : MonoBehaviour
 
         // pick 4 random blocks
         //return new int[] { picker.Next(9), picker.Next(9), picker.Next(9)};
+
         if (puzzleLength == 3)
         {
             return new List<int> { 3, 4, 8 };
@@ -196,13 +170,12 @@ public class SymbolPuzzle : MonoBehaviour
 
         else if(puzzleLength == 4)
         {
-            List<int> possibilities = new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
-            Shuffle<int>(ref possibilities);
+            List<int> possibilities = new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8 }; // (A)
+            Shuffle<int>(ref possibilities); // (A)
 
-            return new List<int> { possibilities[0], possibilities[1], possibilities[2], possibilities[3]};
+            return new List<int> { possibilities[0], possibilities[1], possibilities[2], possibilities[3]}; // (A)
         }
 
         return new List<int> { 0 };
-
     }
 }
