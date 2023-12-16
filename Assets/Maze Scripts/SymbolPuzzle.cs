@@ -81,7 +81,7 @@ public class SymbolPuzzle : MonoBehaviour
                 
                 if (correct)
                 {
-                    AudioManager.instance.PlayEffect(gameObject, AudioManager.DefaultClips.SUCCESS);
+                    AudioManager.instance.PlayEffect(gameObject, AudioManager.DefaultClips.SUCCESS); // Owen
                     
                     statecam.enabled = true;
                     MainCam.enabled = true;
@@ -102,7 +102,7 @@ public class SymbolPuzzle : MonoBehaviour
                 else
                 {
                     // If the puzzle is failed, flash all tiles and reset
-                    AudioManager.instance.PlayEffect(gameObject, AudioManager.DefaultClips.FAIL);
+                    AudioManager.instance.PlayEffect(gameObject, AudioManager.DefaultClips.FAIL); // Owen
                     userSolution.Clear();
                     StartCoroutine(FlashAll());
                 }

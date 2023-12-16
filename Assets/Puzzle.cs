@@ -5,7 +5,8 @@ using UnityEngine;
 using Cinemachine;
 using TMPro;
 
-
+// Script by Lila Masand
+// Base for SymbolPuzzle
 public class Puzzle : MonoBehaviour
 {
 
