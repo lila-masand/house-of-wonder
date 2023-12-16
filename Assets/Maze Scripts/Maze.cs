@@ -35,7 +35,10 @@ public class Maze : MonoBehaviour {
     public Material outerWallMaterial;
     private SymbolPuzzle puzzleScript;
     public GameObject puzzle;
+    public GameObject sym_bird, sym_claw, sym_xhair, sym_dude, sym_fish, sym_hole, sym_pointy, sym_temple, sym_trefoil;
     private GameObject npc1, npc2, npc3, npc4;
+    private GameObject sym1, sym2, sym3, sym4;
+    public int collected = 0;
 
     private void Shuffle<T>(ref List<T> list)
     {
@@ -53,6 +56,7 @@ public class Maze : MonoBehaviour {
         puzzleScript = puzzle.GetComponent<SymbolPuzzle>();
 
         List<GameObject> npc_order = new List<GameObject> { pointy, hole, dude, fish, claw, bird, crosshair, temple, trefoil }; 
+        List<GameObject> sym_order = new List<GameObject> { sym_pointy, sym_hole, sym_dude, sym_fish, sym_claw, sym_bird, sym_xhair, sym_temple, sym_trefoil };
 
         bounds = GetComponent<Collider>().bounds; 
         timestamp_last_msg = 0.0f;
@@ -91,12 +95,22 @@ public class Maze : MonoBehaviour {
         npc1 = npc_order[puzzleScript.solution[0]];
         npc2 = npc_order[puzzleScript.solution[1]];
         npc3 = npc_order[puzzleScript.solution[2]];
-        if (puzzleScript.puzzleLength == 4) { npc4 = npc_order[puzzleScript.solution[3]]; }
+        sym1 = sym_order[puzzleScript.solution[0]];
+        sym2 = sym_order[puzzleScript.solution[1]];
+        sym3 = sym_order[puzzleScript.solution[2]];
+        if (puzzleScript.puzzleLength == 4) {
+            npc4 = npc_order[puzzleScript.solution[3]];
+            sym4 = sym_order[puzzleScript.solution[3]];
+        }
         // set npcs active
         npc1.SetActive(true);
         npc2.SetActive(true);
         npc3.SetActive(true);
         if (puzzleScript.puzzleLength == 4) { npc4.SetActive(true); }
+        sym1.SetActive(true);
+        sym2.SetActive(true);
+        sym3.SetActive(true);
+        sym4.SetActive(true);
 
         DrawMaze(grid);
     }
@@ -271,21 +285,25 @@ public class Maze : MonoBehaviour {
                 float y = bounds.min[1];
                 if (solution[w, l][0] == TileType.WALL) {
 
-                    GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                    cube.name = "WALL";
-                    cube.transform.localScale = new Vector3(bounds.size[0] / (float)width, height, bounds.size[2] / (float)length);
-                    cube.transform.position = new Vector3(x + 0.5f, y + height * 0.5f, z + 0.5f);
-                    cube.GetComponent<Renderer>().material = wallMaterial;
-                    NavMeshObstacle navObstacle = cube.AddComponent<NavMeshObstacle>();
-                    navObstacle.carving = true;
+                    // if ( w != middle || l != 0 ) {
+                        GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                        cube.name = "WALL";
+                        cube.transform.localScale = new Vector3(bounds.size[0] / (float)width, height, bounds.size[2] / (float)length);
+                        cube.transform.position = new Vector3(x + 0.5f, y + height * 0.5f, z + 0.5f);
+                        cube.GetComponent<Renderer>().material = wallMaterial;
+                        NavMeshObstacle navObstacle = cube.AddComponent<NavMeshObstacle>();
+                        navObstacle.carving = true;
+                    // }
 
-                    GameObject lowercube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                    lowercube.name = "WALL";
-                    lowercube.transform.localScale = new Vector3(bounds.size[0] / (float)width, height, bounds.size[2] / (float)length);
-                    lowercube.transform.position = new Vector3(x + 0.5f, y - height * 2.5f, z + 0.5f);
-                    lowercube.GetComponent<Renderer>().material = wallMaterial;
-                    NavMeshObstacle lowernavObstacle = lowercube.AddComponent<NavMeshObstacle>();
-                    lowernavObstacle.carving = true;
+                    // if ( w != middle-4 || l != 0 ) {
+                        GameObject lowercube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                        lowercube.name = "WALL";
+                        lowercube.transform.localScale = new Vector3(bounds.size[0] / (float)width, height, bounds.size[2] / (float)length);
+                        lowercube.transform.position = new Vector3(x + 0.5f, y - height * 2.5f, z + 0.5f);
+                        lowercube.GetComponent<Renderer>().material = wallMaterial;
+                        NavMeshObstacle lowernavObstacle = lowercube.AddComponent<NavMeshObstacle>();
+                        lowernavObstacle.carving = true;
+                    // }
 
                     if (w == middle && l == middle) { 
                         //make center puzzle location unique
@@ -299,23 +317,39 @@ public class Maze : MonoBehaviour {
                         cube.GetComponent<Renderer>().material = outerWallMaterial;
                         lowercube.GetComponent<Renderer>().material = outerWallMaterial;
 
-                        GameObject cube2 = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                        cube2.name = "WALL";
-                        cube2.transform.localScale = new Vector3(bounds.size[0] / (float)width, height, bounds.size[2] / (float)length);
-                        cube2.transform.position = new Vector3(x + 0.5f, y + height * 1.5f, z + 0.5f);
-                        cube2.GetComponent<Renderer>().material = outerWallMaterial;
+                        // if ( w != middle || l != 0 ) {
+                            // top second layer
+                            GameObject cube2 = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                            cube2.name = "WALL";
+                            cube2.transform.localScale = new Vector3(bounds.size[0] / (float)width, height, bounds.size[2] / (float)length);
+                            cube2.transform.position = new Vector3(x + 0.5f, y + height * 1.5f, z + 0.5f);
+                            cube2.GetComponent<Renderer>().material = outerWallMaterial;
+                        // }
 
-                        GameObject lowercube2 = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                        lowercube2.name = "WALL";
-                        lowercube2.transform.localScale = new Vector3(bounds.size[0] / (float)width, height, bounds.size[2] / (float)length);
-                        lowercube2.transform.position = new Vector3(x + 0.5f, y - height * 1.5f, z + 0.5f);
-                        lowercube2.GetComponent<Renderer>().material = outerWallMaterial;
+                        // if ( w != middle-4 || l != 0 ) {
+                            // bottom second layer
+                            GameObject lowercube2 = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                            lowercube2.name = "WALL";
+                            lowercube2.transform.localScale = new Vector3(bounds.size[0] / (float)width, height, bounds.size[2] / (float)length);
+                            lowercube2.transform.position = new Vector3(x + 0.5f, y - height * 1.5f, z + 0.5f);
+                            lowercube2.GetComponent<Renderer>().material = outerWallMaterial;
+                        // }
 
+                        // bottom third layer
                         GameObject lowercube3 = GameObject.CreatePrimitive(PrimitiveType.Cube);
                         lowercube3.name = "WALL";
                         lowercube3.transform.localScale = new Vector3(bounds.size[0] / (float)width, height, bounds.size[2] / (float)length);
                         lowercube3.transform.position = new Vector3(x + 0.5f, y - height * 0.5f, z + 0.5f);
                         lowercube3.GetComponent<Renderer>().material = outerWallMaterial;
+
+                        if ( w == middle-4 && l == length - 1 ) {
+                            Destroy(lowercube);
+                            Destroy(lowercube2);
+                        }
+                        if ( w == middle && l == length - 1 ) {
+                            Destroy(cube);
+                            Destroy(cube2);
+                        }
                     }
                 }
             }
@@ -337,7 +371,8 @@ public class Maze : MonoBehaviour {
                 float z = bounds.min[2] + (float)ln * (bounds.size[2] / (float)length);
                 npc1.transform.position = new Vector3(x + 0.5f, 0, z + 0.5f); 
                 npc1.GetComponent<Rigidbody>().useGravity = true;
-                npc1.GetComponent<Rigidbody>().mass = 1000;
+                // npc1.GetComponent<Rigidbody>().mass = 1000;
+                sym1.transform.position = new Vector3(x + 0.5f, -(height*2.75f), z + 0.5f);
                 break;
             }
         }
@@ -357,6 +392,7 @@ public class Maze : MonoBehaviour {
                 float z = bounds.min[2] + (float)ln * (bounds.size[2] / (float)length);
                 npc2.transform.position = new Vector3(x + 0.5f, 0, z + 0.5f); 
                 npc2.GetComponent<Rigidbody>().useGravity = true;
+                sym2.transform.position = new Vector3(x + 0.5f, -(height*2.75f), z + 0.5f);
                 break;
             }
         }
@@ -375,6 +411,7 @@ public class Maze : MonoBehaviour {
                 float z = bounds.min[2] + (float)ln * (bounds.size[2] / (float)length);
                 npc3.transform.position = new Vector3(x + 0.5f, 0, z + 0.5f); 
                 npc3.GetComponent<Rigidbody>().useGravity = true;
+                sym3.transform.position = new Vector3(x + 0.5f, -(height*2.75f), z + 0.5f);
                 break;
             }
         }
@@ -393,7 +430,8 @@ public class Maze : MonoBehaviour {
                     float x = bounds.min[0] + (float)wn * (bounds.size[0] / (float)width);
                     float z = bounds.min[2] + (float)ln * (bounds.size[2] / (float)length);
                     npc4.transform.position = new Vector3(x + 0.5f, 0, z + 0.5f);
-                    npc4.GetComponent<Rigidbody>().useGravity = true; 
+                    npc4.GetComponent<Rigidbody>().useGravity = true;
+                    sym4.transform.position = new Vector3(x + 0.5f, -(height*2.75f), z + 0.5f);
                     break;
                 }
             }
@@ -404,7 +442,9 @@ public class Maze : MonoBehaviour {
     void Update() {
         if (solved_puzzle) {
             started = false;
-            return;
+        }
+        if (collected == 4) {
+            Debug.Log("GAME OVER");
         }
     }
 }
