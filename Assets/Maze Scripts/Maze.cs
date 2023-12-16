@@ -455,6 +455,7 @@ public class Maze : MonoBehaviour {
     }
 
     void Restart() {
+        Time.timeScale = 1f;
         SceneManager.LoadScene(0);
     }
 }
